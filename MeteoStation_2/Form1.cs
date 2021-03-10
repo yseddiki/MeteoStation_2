@@ -202,7 +202,12 @@ namespace MeteoStation_2
             InsertValueInDatagrid();
             RefreshDataGrid();
         }
-
+        public double GetDataConvert(UInt32 Data,int nbre,int MaxInterval,int MinInterval)
+        {
+            double DataConvert;
+            DataConvert =((Data / 2 * (nbre * 8)) * (MaxInterval - MinInterval) - MinInterval);
+            return DataConvert;
+        }
         private void RefreshDataGrid()
         {
             ///Verif
@@ -219,6 +224,7 @@ namespace MeteoStation_2
             }
             datagridMeteo.DataSource = dt;
         }
-        
+
+
     }
 }
