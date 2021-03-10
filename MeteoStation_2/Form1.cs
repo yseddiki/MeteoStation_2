@@ -46,7 +46,7 @@ namespace MeteoStation_2
             dt.Columns.Add(dc);
             dc = new DataColumn("Type", typeof(int));
             dt.Columns.Add(dc);
-            dc = new DataColumn("SumOctet", typeof(UInt32));
+            dc = new DataColumn("Data", typeof(UInt32)) ;
             dt.Columns.Add(dc);
             dc = new DataColumn("CheckSum", typeof(int));
             dt.Columns.Add(dc);
@@ -81,15 +81,6 @@ namespace MeteoStation_2
                 cptRead++;
                 AddtoBufferF();
             }
-
-            //SysoToTab();
-
-            //AddToList();
-            //MessageBox.Show("Result tab: "+ Serial.Read(BufferS,0,count));
-            //MessageBox.Show("Result Status: "+Serial.IsOpen+" Taille :"+ Serial.BytesToRead);
-            // Show all the incoming data in the port's buffer
-            //Console.WriteLine("Caractère reçu");
-            //Console.WriteLine(Serial.ReadExisting());
         }
 
         private void SysoToTab()
@@ -193,8 +184,6 @@ namespace MeteoStation_2
                 }
             }
             MessageBox.Show("Fin de la lecture du jet d'information n°" + cptRead);
-            MessageBox.Show("Taille coucou: " + LBase.Count);
-            
             UpdateDatagrid();
         }
         private void UpdateDatagrid()
@@ -202,10 +191,10 @@ namespace MeteoStation_2
             InsertValueInDatagrid();
             RefreshDataGrid();
         }
-        public double GetDataConvert(UInt32 Data,int nbre,int MaxInterval,int MinInterval)
+        public double GetDataConvert(UInt32 Data,int nbredata,int MaxInterval,int MinInterval)
         {
             double DataConvert;
-            DataConvert =((Data / 2 * (nbre * 8)) * (MaxInterval - MinInterval) - MinInterval);
+            DataConvert =((int)(Data / 2 * (nbredata * 8)) * (MaxInterval - MinInterval) - MinInterval);
             return DataConvert;
         }
         private void RefreshDataGrid()
@@ -225,6 +214,17 @@ namespace MeteoStation_2
             datagridMeteo.DataSource = dt;
         }
 
-
+        private void bt_Update_Click(object sender, EventArgs e)
+        {
+            foreach (Base trame in LBase)
+            {
+                if (trame.id == 2)
+                {
+                    int Maxinterval = (int)nUD_MaxInterval.Value;
+                    int Mininterval = (int)nUD_MinInterval.Value;
+                    trame.data = GetDataConvert(trame.data,trame.cptOctet,Maxinterval,Mininterval);
+                }
+            }
+        }        
     }
 }

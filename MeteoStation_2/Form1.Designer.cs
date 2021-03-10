@@ -40,6 +40,7 @@
             this.lb_IntervalMax = new System.Windows.Forms.Label();
             this.nUD_MinInterval = new System.Windows.Forms.NumericUpDown();
             this.nUD_MaxInterval = new System.Windows.Forms.NumericUpDown();
+            this.bt_Update = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -60,6 +61,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.bt_Update);
             this.groupBox1.Controls.Add(this.lb_MinAlarm);
             this.groupBox1.Controls.Add(this.lb_AlarmMax);
             this.groupBox1.Controls.Add(this.numericUpDown1);
@@ -139,6 +141,16 @@
             this.nUD_MaxInterval.Size = new System.Drawing.Size(120, 26);
             this.nUD_MaxInterval.TabIndex = 0;
             // 
+            // bt_Update
+            // 
+            this.bt_Update.Location = new System.Drawing.Point(153, 237);
+            this.bt_Update.Name = "bt_Update";
+            this.bt_Update.Size = new System.Drawing.Size(125, 43);
+            this.bt_Update.TabIndex = 8;
+            this.bt_Update.Text = "Update";
+            this.bt_Update.UseVisualStyleBackColor = true;
+            this.bt_Update.Click += new System.EventHandler(this.bt_Update_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -172,6 +184,7 @@
         private System.Windows.Forms.Label lb_IntervalMax;
         private System.Windows.Forms.NumericUpDown nUD_MinInterval;
         private System.Windows.Forms.NumericUpDown nUD_MaxInterval;
+        private System.Windows.Forms.Button bt_Update;
     }
 
       
