@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace MeteoStation_2.Class
 {
-    class Mesure
+    class Mesure : Base
     {
+        internal int MinInterval;
+        internal int MaxInterval;
+        internal double DataConvert;
+        internal int AlarmMax;
+        internal int AlarmMin;
     }
 }

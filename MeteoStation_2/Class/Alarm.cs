@@ -8,5 +8,8 @@ namespace MeteoStation_2.Class
 {
     class Alarm : Base
     {
+        internal int ID;
+        internal int Type;
+        internal int Etat;
     }
 }
