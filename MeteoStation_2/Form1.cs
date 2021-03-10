@@ -15,7 +15,7 @@ namespace MeteoStation_2
     public partial class Form1 : Form
     {
 
-        String DefaultCOM = "COM1";
+        String DefaultCOM = "COM2";
         DataTable dt = new DataTable();
         bool bData_received = true;
         byte[] BufferS;

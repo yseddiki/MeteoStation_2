@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeteoStation_2.Class
 {
-    class Alarm
+    class Alarm : Base
     {
     }
 }
