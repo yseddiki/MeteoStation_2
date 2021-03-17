@@ -23,9 +23,6 @@ namespace MeteoStation_2
         List<byte> BufferF = new List<byte>();
         int count;
         int cptRead = 0;
-        Timer timer = new Timer { Interval = 200, Enabled = false };
-
-
         public Form1()
         {
             InitializeComponent();
@@ -52,6 +49,10 @@ namespace MeteoStation_2
             dt.Columns.Add(dc);
             //////////////////////////////
             ////Liason de la datatable datagrid
+            for(int i =1; i<6;i++)
+            {
+                dt.Rows.Add(i);
+            }
             datagridMeteo.DataSource = dt;
 
         }
@@ -66,6 +67,7 @@ namespace MeteoStation_2
             // Instatiate this class
             Console.WriteLine("Incoming Data :");
             // Begin communications
+            timer1.Start();
             Serial.Open();
             Serial.DataReceived += new SerialDataReceivedEventHandler(Serial_DataReceived);
         }
@@ -105,12 +107,12 @@ namespace MeteoStation_2
             String fintrame = "";
             bool VerifTrame = false;
             bool traitementTrame = false;
+            bool EndTrame = false;
             for (int index = 0; index < BufferF.Count; index++)
             {
                 if (BufferF[index] == 85 && VerifTrame == false)
                 {
                     String debuttrame = "";
-
                     VerifTrame = true;
                     debuttrame = BufferF[index].ToString() + BufferF[index + 1].ToString() + BufferF[index + 2].ToString();
                     Console.WriteLine("Debut de trame");
@@ -147,14 +149,10 @@ namespace MeteoStation_2
                     newtrame.Type = BufferF[memoryposition + 2];
                     //////////////////
                     ///Data
-                    String Verif="";
                     for (int cpt = 0; cpt < newtrame.cptOctet; cpt++)
                     {
                         newdata += ((UInt32) BufferS[memoryposition + 3 + cpt])<<8*cpt;
-                        Verif += BufferS[memoryposition + 3 + cpt] + " + ";
                     }
-                    Console.WriteLine("verif data "+Verif);
-                    Verif = "";
                     newtrame.data = newdata;
                     ///////////////
                     ///Checksumm
@@ -174,42 +172,34 @@ namespace MeteoStation_2
                         index = index + 3;
                         VerifTrame = false;
                         traitementTrame = false;
-
                     }
                     else
                     {
                         Console.WriteLine("probleme" + fintrame);
                     }
-
                 }
+                bData_received = true;
             }
-            MessageBox.Show("Fin de la lecture du jet d'information n°" + cptRead);
-            UpdateDatagrid();
-        }
-        private void UpdateDatagrid()
-        {
-            InsertValueInDatagrid();
-            RefreshDataGrid();
+            MessageBox.Show("Fin de la lecture du jet d'information n°" + cptRead);      
         }
         public double GetDataConvert(UInt32 Data,int nbredata,int MaxInterval,int MinInterval)
         {
             double DataConvert;
-            DataConvert =((int)(Data / 2 * (nbredata * 8)) * (MaxInterval - MinInterval) - MinInterval);
+            double denomiteur = Math.Pow(2, nbredata * 8) - 1;
+            Console.WriteLine(denomiteur);
+            ///////////////////
+            ////Méthode
+            DataConvert =((double)(Data / denomiteur) * (MaxInterval - MinInterval) )+ MinInterval;
             return DataConvert;
         }
-        private void RefreshDataGrid()
-        {
-            ///Verif
-            ///
-        }
-
         private void InsertValueInDatagrid()
-        {
+        { 
             foreach (Base trame in LBase)
             {
-              
-                dt.Rows.Add(trame.id, trame.cptOctet, trame.Type, trame.data, trame.checksum);
-               
+                dt.Rows[(trame.id - 1)].SetField(1, trame.cptOctet);
+                dt.Rows[(trame.id - 1)].SetField(2, trame.Type);
+                dt.Rows[(trame.id - 1)].SetField(3, trame.data);
+                dt.Rows[(trame.id - 1)].SetField(4, trame.checksum);
             }
             datagridMeteo.DataSource = dt;
         }
@@ -220,11 +210,17 @@ namespace MeteoStation_2
             {
                 if (trame.id == 2)
                 {
+
                     int Maxinterval = (int)nUD_MaxInterval.Value;
                     int Mininterval = (int)nUD_MinInterval.Value;
-                    trame.data = GetDataConvert(trame.data,trame.cptOctet,Maxinterval,Mininterval);
+                    MessageBox.Show("Data convertie " +GetDataConvert(trame.data,trame.cptOctet,Maxinterval,Mininterval));    
                 }
             }
-        }        
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            InsertValueInDatagrid();
+        }
     }
 }

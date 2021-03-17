@@ -41,6 +41,7 @@
             this.nUD_MinInterval = new System.Windows.Forms.NumericUpDown();
             this.nUD_MaxInterval = new System.Windows.Forms.NumericUpDown();
             this.bt_Update = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -51,12 +52,23 @@
             // 
             // datagridMeteo
             // 
+            this.datagridMeteo.AllowUserToAddRows = false;
+            this.datagridMeteo.AllowUserToDeleteRows = false;
+            this.datagridMeteo.AllowUserToResizeColumns = false;
+            this.datagridMeteo.AllowUserToResizeRows = false;
             this.datagridMeteo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datagridMeteo.Location = new System.Drawing.Point(59, 30);
             this.datagridMeteo.Name = "datagridMeteo";
+            this.datagridMeteo.ReadOnly = true;
+            this.datagridMeteo.RowHeadersVisible = false;
             this.datagridMeteo.RowHeadersWidth = 62;
             this.datagridMeteo.RowTemplate.Height = 28;
-            this.datagridMeteo.Size = new System.Drawing.Size(819, 459);
+            this.datagridMeteo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.datagridMeteo.ShowCellErrors = false;
+            this.datagridMeteo.ShowCellToolTips = false;
+            this.datagridMeteo.ShowEditingIcon = false;
+            this.datagridMeteo.ShowRowErrors = false;
+            this.datagridMeteo.Size = new System.Drawing.Size(746, 335);
             this.datagridMeteo.TabIndex = 0;
             // 
             // groupBox1
@@ -129,7 +141,12 @@
             // 
             // nUD_MinInterval
             // 
-            this.nUD_MinInterval.Location = new System.Drawing.Point(24, 142);
+            this.nUD_MinInterval.Location = new System.Drawing.Point(25, 143);
+            this.nUD_MinInterval.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.nUD_MinInterval.Name = "nUD_MinInterval";
             this.nUD_MinInterval.Size = new System.Drawing.Size(120, 26);
             this.nUD_MinInterval.TabIndex = 1;
@@ -150,6 +167,11 @@
             this.bt_Update.Text = "Update";
             this.bt_Update.UseVisualStyleBackColor = true;
             this.bt_Update.Click += new System.EventHandler(this.bt_Update_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 200;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -185,6 +207,7 @@
         private System.Windows.Forms.NumericUpDown nUD_MinInterval;
         private System.Windows.Forms.NumericUpDown nUD_MaxInterval;
         private System.Windows.Forms.Button bt_Update;
+        private System.Windows.Forms.Timer timer1;
     }
 
       

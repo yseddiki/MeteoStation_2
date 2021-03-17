@@ -15,4 +15,5 @@ namespace MeteoStation_2.Class
         internal int AlarmMax;
         internal int AlarmMin;
     }
+
 }
