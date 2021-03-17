@@ -110,7 +110,7 @@ namespace MeteoStation_2
             bool EndTrame = false;
             for (int index = 0; index < BufferF.Count; index++)
             {
-                if (BufferF[index] == 85 && VerifTrame == false)
+                if (BufferF[index] == 85 && VerifTrame == false && index < BufferF.Count)
                 {
                     String debuttrame = "";
                     VerifTrame = true;
@@ -122,15 +122,24 @@ namespace MeteoStation_2
                     {
                         ////////////////////////////////////
                         //Verif que c'est bien le debut d'une trame
-                        traitementTrame = true;
-
+                        
+                        ////////////////////////////////////
+                        ///Verif si il y a une trame complete 
+                        /*
+                        int verif = BufferF[index + 4];
+                        String Sfin= BufferF[index+verif+7].ToString() + BufferF[index + verif + 8].ToString() + BufferF[index + verif + 9].ToString();*/
+                        ///Console.WriteLine("test " + Sfin);
+                       /* if (Sfin == "17085170") 
+                        {*/
+                            traitementTrame = true;
+                        /*}*/
                     }
                     else
                     {
                         VerifTrame = false;
                     }
                 }
-                if (traitementTrame == true)
+                if (traitementTrame == true && index+12 < BufferF.Count)
                 {
                     /////////////////////////////////
                     ///Creation d'une trame d'information
@@ -166,7 +175,7 @@ namespace MeteoStation_2
 
                     if (fintrame == "17085170")
                     {
-                        Console.WriteLine("New trame id:" + newtrame.id + "| Nbre :" + newtrame.cptOctet + "| Type :" + newtrame.cptOctet + "| " + "| Data :" + newtrame.data + "| " + "| Checksum :" + newtrame.checksum);
+                        Console.WriteLine("New trame id:" + newtrame.id + "| Nbre :" + newtrame.cptOctet + "| Type :" + newtrame.Type+ "| " + "| Data :" + newtrame.data + "| " + "| Checksum :" + newtrame.checksum);
                         LBase.Add(newtrame);
                         Console.WriteLine("taille de la liste:" + LBase.Count);
                         index = index + 3;
@@ -179,7 +188,9 @@ namespace MeteoStation_2
                     }
                 }
                 bData_received = true;
-            }
+                Serial.DataReceived += new SerialDataReceivedEventHandler(Serial_DataReceived);
+
+        }
             MessageBox.Show("Fin de la lecture du jet d'information n°" + cptRead);      
         }
         public double GetDataConvert(UInt32 Data,int nbredata,int MaxInterval,int MinInterval)
