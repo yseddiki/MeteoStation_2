@@ -26,12 +26,14 @@
         /// Méthode requise pour la prise en charge du concepteur - ne modifiez pas
         /// le contenu de cette méthode avec l'éditeur de code.
         /// </summary>
- private void InitializeComponent()
+        private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.AlarmPage = new MeteoStation_2.Forms.FormAlarm();
             this.datagridMeteo = new System.Windows.Forms.DataGridView();
             this.Serial = new System.IO.Ports.SerialPort(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bt_Update = new System.Windows.Forms.Button();
             this.lb_MinAlarm = new System.Windows.Forms.Label();
             this.lb_AlarmMax = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -40,7 +42,6 @@
             this.lb_IntervalMax = new System.Windows.Forms.Label();
             this.nUD_MinInterval = new System.Windows.Forms.NumericUpDown();
             this.nUD_MaxInterval = new System.Windows.Forms.NumericUpDown();
-            this.bt_Update = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -49,6 +50,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MinInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MaxInterval)).BeginInit();
             this.SuspendLayout();
+            //////////////////////
+            ///
+            // 
+            // AlarmPage
+            // 
+            this.Controls.Add(this.AlarmPage);
+            this.AlarmPage.Location = new System.Drawing.Point(59, 371);
+            this.AlarmPage.Name = "AlarmPage";
+            this.AlarmPage.Size = new System.Drawing.Size(746, 259);
+            this.AlarmPage.TabIndex = 2;
+            this.Controls.Remove(this.AlarmPage);
             // 
             // datagridMeteo
             // 
@@ -88,6 +100,16 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parametre";
+            // 
+            // bt_Update
+            // 
+            this.bt_Update.Location = new System.Drawing.Point(153, 237);
+            this.bt_Update.Name = "bt_Update";
+            this.bt_Update.Size = new System.Drawing.Size(125, 43);
+            this.bt_Update.TabIndex = 8;
+            this.bt_Update.Text = "Update";
+            this.bt_Update.UseVisualStyleBackColor = true;
+        
             // 
             // lb_MinAlarm
             // 
@@ -158,20 +180,9 @@
             this.nUD_MaxInterval.Size = new System.Drawing.Size(120, 26);
             this.nUD_MaxInterval.TabIndex = 0;
             // 
-            // bt_Update
-            // 
-            this.bt_Update.Location = new System.Drawing.Point(153, 237);
-            this.bt_Update.Name = "bt_Update";
-            this.bt_Update.Size = new System.Drawing.Size(125, 43);
-            this.bt_Update.TabIndex = 8;
-            this.bt_Update.Text = "Update";
-            this.bt_Update.UseVisualStyleBackColor = true;
-            this.bt_Update.Click += new System.EventHandler(this.bt_Update_Click);
-            // 
             // timer1
             // 
             this.timer1.Interval = 200;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
