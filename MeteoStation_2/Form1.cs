@@ -50,10 +50,11 @@ namespace MeteoStation_2
             dt.Columns.Add(dc);
             //////////////////////////////
             ////Liason de la datatable datagrid
-            for (int i = 1; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 dt.Rows.Add(i);
             }
+            dt.Rows.Add(50);
             datagridMeteo.DataSource = dt;
 
         }
@@ -77,6 +78,7 @@ namespace MeteoStation_2
         {
             if (bData_received == true)
             {
+                Console.WriteLine("DATA RECEIVED");
                 count = Serial.BytesToRead;
                 BufferS = new byte[count];
                 Serial.Read(BufferS, 0, count);
@@ -101,6 +103,7 @@ namespace MeteoStation_2
             {
                 BufferF.Add(BufferS[index]);
             }
+            Console.WriteLine("BUFFER FINALE SIZE :" + BufferF.Count);
             AddTrame();
         }
         public bool checkframe()
@@ -109,10 +112,12 @@ namespace MeteoStation_2
             {
                 if (BufferF[0] == 85 && BufferF[1] == 170 && BufferF[2] == 85 && (BufferF[3] < 11 || BufferF[3] == 50))
                 {
+                    Console.WriteLine("TRUE");
                     return true;
                 }
                 else
                 {
+                    Console.WriteLine("FALSE");
                     BufferF.RemoveAt(0);
                 }
             }
@@ -121,8 +126,7 @@ namespace MeteoStation_2
         public double GetDataConvert(UInt32 Data, int nbredata, int MaxInterval, int MinInterval)
         {
             double DataConvert;
-            double denomiteur = Math.Pow(2, nbredata * 8) - 1;
-            Console.WriteLine(denomiteur);
+            double denomiteur = Math.Pow(2, nbredata * 8) - 1;          
             ///////////////////
             ////Méthode
             DataConvert = ((double)(Data / denomiteur) * (MaxInterval - MinInterval)) + MinInterval;
@@ -132,10 +136,20 @@ namespace MeteoStation_2
         {
             foreach (Base trame in LBase)
             {
-                dt.Rows[(trame.id - 1)].SetField(1, trame.cptOctet);
-                dt.Rows[(trame.id - 1)].SetField(2, trame.Type);
-                dt.Rows[(trame.id - 1)].SetField(3, trame.data);
-                dt.Rows[(trame.id - 1)].SetField(4, trame.checksum);
+                if (trame.id < 6)
+                {
+                    dt.Rows[(trame.id)].SetField(1, trame.cptOctet);
+                    dt.Rows[(trame.id)].SetField(2, trame.Type);
+                    dt.Rows[(trame.id)].SetField(3, trame.data);
+                    dt.Rows[(trame.id)].SetField(4, trame.checksum);
+                }
+                else if (trame.id==50)
+                {
+                    dt.Rows[5].SetField(1, trame.cptOctet);
+                    dt.Rows[5].SetField(2, trame.Type);
+                    dt.Rows[5].SetField(3, trame.data);
+                    dt.Rows[5].SetField(4, trame.checksum);
+                }
             }
             datagridMeteo.DataSource = dt;
         }
@@ -155,22 +169,22 @@ namespace MeteoStation_2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //InsertValueInDatagrid();
+            InsertValueInDatagrid();
         }
         private void AddTrame()
         {
-            while (BufferF.Count < 14)
+            while (BufferF.Count > 14)
             {
                 if (checkframe())
                 {
                     Base obj = new Base();
                     /////////////////////////////////
                     ///Creation d'une trame d'information
-                    if (BufferF[3] < 11)
+                    if (BufferF[3] < 11 && BufferF[3] !=0)
                     {
                         obj = new Mesure();
                     }
-                    if (BufferF[3] == 51)
+                    if (BufferF[3] == 50)
                     {
                         obj = new Alarm();
                     }
@@ -188,112 +202,70 @@ namespace MeteoStation_2
                     ///Data
                     //////////////////
                     ///Checksumm
-                    obj.checksum = BufferF[8 + obj.cptOctet];
+                    obj.checksum = BufferF[6 + obj.cptOctet];
                     //////////////////////////////////////////
-                    ///Fin de trame 
-                    int index = 8 + obj.cptOctet;
-                    String fintrame = BufferF[index + 1].ToString() + BufferF[index + 2].ToString() + BufferF[index + 3].ToString();
+                    ///Fin de trame
                     for (int cpt = 0; cpt < obj.cptOctet; cpt++)
                     {
-                        obj.data += (((UInt32)BufferF[8 + cpt]) << 8 * cpt);
+                        obj.data += (((UInt32)BufferF[6 + cpt]) << 8 * cpt);
+                    }
+                    Console.WriteLine("New trame id:" + obj.id + "| Nbre :" + obj.cptOctet + "| Type :" + obj.Type + "| " + "| Data :" + obj.data + "| " + "| Checksum :" + obj.checksum);
+                    if(checkListBase(obj))
+                    {
+                        uptadeData(obj);
+                    }
+                    else
+                    {
+                        LBase.Add(obj);
+                    }
+                    Console.WriteLine("taille de la liste:" + LBase.Count);
+                    for (int cpt = 0; cpt < 10+obj.cptOctet; cpt++)
+                    {
+                        BufferF.RemoveAt(0);
                     }
                 }
             }
+            bData_received = true;
+            
+        }
+        private bool checkListBase(Base newtrame)
+        {
+            foreach (Base Trame in LBase)
+            {
+                if(Trame.id==newtrame.id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private void uptadeData(Base newtrame)
+        {
+            foreach (Base Trame in LBase)
+            {
+                if (Trame.id == newtrame.id)
+                {
+                    Trame.id = newtrame.id;
+                    Trame.Type = newtrame.Type;
+                    Trame.cptOctet = newtrame.cptOctet;
+                    Trame.data = newtrame.data;
+                    Trame.checksum = newtrame.checksum;
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(timer1.Enabled==true)
+            {
+                timer1.Enabled = false;
+                button1.Text = "Start";
+            }
+            else 
+            {
+                timer1.Enabled = true;
+                button1.Text = "Pause";
+            }
         }
     }
-
-
-    /* private void AddtoLTrame()
-      {
-          String fintrame = "";
-          bool VerifTrame = false;
-          bool traitementTrame = false;
-          bool EndTrame = false;
-          for (int index = 0; index < BufferF.Count; index++)
-          {
-              if (index < BufferF.Count - 10)
-              {
-                  if (BufferF[index] == 85 && VerifTrame == false && index < BufferF.Count)
-                  {
-                      String debuttrame = "";
-                      VerifTrame = true;
-                      debuttrame = BufferF[index].ToString() + BufferF[index + 1].ToString() + BufferF[index + 2].ToString();
-                      Console.WriteLine("Debut de trame");
-                      /////////////////////////////////////
-                      ////Position sur id de la trame
-                      if (debuttrame == "8517085")
-                      {
-                          ////////////////////////////////////
-                          //Verif que c'est bien le debut d'une trame
-                          ////////////////////////////////////
-                          ///Verif si il y a une trame complete 
-                          Console.WriteLine("Taille du buffer : "+BufferF.Count +" N° "+index);
-                          int verif = BufferF[index + 4];
-
-                          String Sfin = BufferF[index + verif + 7].ToString() + BufferF[index + verif + 8].ToString() + BufferF[index + verif + 9].ToString();
-                          Console.WriteLine("Nbre " + verif + "test " + Sfin);
-                          if (Sfin == "17085170")
-                          {
-                              traitementTrame = true;
-                          }
-
-                      }
-                      else
-                      {
-                          VerifTrame = false;
-                      }
-                  }
-                  if (traitementTrame == true && index + 12 < BufferF.Count)
-                  {
-                      /////////////////////////////////
-                      ///Creation d'une trame d'information
-                      Base newtrame = new Base();
-                      UInt32 newdata = 0;
-                      ////////////////////////////////////////
-                      ///Commencement de la recuperation des informations de la trame
-                      /////id position
-                      int memoryposition = index + 3;
-                      newtrame.id = BufferF[memoryposition];
-                      ////////////////
-                      ///Nombre de data 
-                      newtrame.cptOctet = BufferF[memoryposition + 1];
-                      ////////////////
-                      ///Type
-                      newtrame.Type = BufferF[memoryposition + 2];
-                      //////////////////
-                      ///Data
-                      for (int cpt = 0; cpt < newtrame.cptOctet; cpt++)
-                      {
-                          newdata += ((UInt32)BufferS[memoryposition + 3 + cpt]) << 8 * cpt;
-                      }
-                      newtrame.data = newdata;
-                      ///////////////
-                      ///Checksumm
-                      newtrame.checksum = BufferS[memoryposition + 3 + newtrame.cptOctet];
-                      //////////////////////////////////////////
-                      ///Fin de trame 
-                      index = memoryposition + 3 + newtrame.cptOctet;
-                      fintrame = BufferF[index + 1].ToString() + BufferF[index + 2].ToString() + BufferF[index + 3].ToString();
-                      //////////////////////////////////////////
-                      ///reset
-
-                      if (fintrame == "17085170")
-                      {
-                          Console.WriteLine("New trame id:" + newtrame.id + "| Nbre :" + newtrame.cptOctet + "| Type :" + newtrame.Type + "| " + "| Data :" + newtrame.data + "| " + "| Checksum :" + newtrame.checksum);
-                          LBase.Add(newtrame);
-                          Console.WriteLine("taille de la liste:" + LBase.Count);
-                          VerifTrame = false;
-                          traitementTrame = false;
-                      }
-                      else
-                      {
-                          Console.WriteLine("probleme" + fintrame);
-                      }
-                  }
-              }
-          }
-          Console.WriteLine("Fin de la lecture du jet d'information n°" + cptRead);
-          //bData_received = true;
-          //Serial.DataReceived += new SerialDataReceivedEventHandler(Serial_DataReceived);
-      }*/
 }
