@@ -42,8 +42,8 @@
             this.nUD_MinInterval = new System.Windows.Forms.NumericUpDown();
             this.nUD_MaxInterval = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.AlarmPage = new MeteoStation_2.Forms.FormAlarm();
             this.button1 = new System.Windows.Forms.Button();
+            this.AlarmPage = new MeteoStation_2.Forms.FormAlarm();
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -103,6 +103,7 @@
             this.bt_Update.TabIndex = 8;
             this.bt_Update.Text = "Update";
             this.bt_Update.UseVisualStyleBackColor = true;
+            this.bt_Update.Click += new System.EventHandler(this.bt_Update_Click);
             // 
             // lb_MinAlarm
             // 
@@ -187,14 +188,6 @@
             this.timer1.Interval = 200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // AlarmPage
-            // 
-            this.AlarmPage.Location = new System.Drawing.Point(39, 241);
-            this.AlarmPage.Margin = new System.Windows.Forms.Padding(1);
-            this.AlarmPage.Name = "AlarmPage";
-            this.AlarmPage.Size = new System.Drawing.Size(497, 168);
-            this.AlarmPage.TabIndex = 2;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(616, 359);
@@ -204,6 +197,14 @@
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // AlarmPage
+            // 
+            this.AlarmPage.Location = new System.Drawing.Point(39, 241);
+            this.AlarmPage.Margin = new System.Windows.Forms.Padding(1);
+            this.AlarmPage.Name = "AlarmPage";
+            this.AlarmPage.Size = new System.Drawing.Size(497, 168);
+            this.AlarmPage.TabIndex = 2;
             // 
             // Form1
             // 

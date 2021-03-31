@@ -17,6 +17,7 @@ namespace MeteoStation_2
         private Forms.FormAlarm AlarmPage;
 
         String DefaultCOM = "COM2";
+        bool bdatagridConvert = false;
         DataTable dt = new DataTable();
         bool bData_received = true;
         byte[] BufferS;
@@ -44,7 +45,7 @@ namespace MeteoStation_2
             dt.Columns.Add(dc);
             dc = new DataColumn("Type", typeof(int));
             dt.Columns.Add(dc);
-            dc = new DataColumn("Data", typeof(UInt32));
+            dc = new DataColumn("Data", typeof(double));
             dt.Columns.Add(dc);
             dc = new DataColumn("CheckSum", typeof(int));
             dt.Columns.Add(dc);
@@ -134,13 +135,21 @@ namespace MeteoStation_2
         }
         private void InsertValueInDatagrid()
         {
+            
             foreach (Base trame in LBase)
             {
                 if (trame.id < 6)
                 {
                     dt.Rows[(trame.id)].SetField(1, trame.cptOctet);
                     dt.Rows[(trame.id)].SetField(2, trame.Type);
-                    dt.Rows[(trame.id)].SetField(3, trame.data);
+                    if (bdatagridConvert == false)
+                    {
+                        dt.Rows[(trame.id)].SetField(3, (double)trame.data);
+                    }
+                    else
+                    {
+                        dt.Rows[(trame.id)].SetField(3,((Mesure)trame).DataConvert);
+                    }
                     dt.Rows[(trame.id)].SetField(4, trame.checksum);
                 }
                 else if (trame.id==50)
@@ -155,14 +164,16 @@ namespace MeteoStation_2
         }
         private void bt_Update_Click(object sender, EventArgs e)
         {
+            
             foreach (Base trame in LBase)
             {
+                bdatagridConvert = true;
                 if (trame.id == 2)
                 {
-
                     int Maxinterval = (int)nUD_MaxInterval.Value;
                     int Mininterval = (int)nUD_MinInterval.Value;
-                    MessageBox.Show("Data convertie " + GetDataConvert(trame.data, trame.cptOctet, Maxinterval, Mininterval));
+                    ((Mesure)trame).DataConvert=GetDataConvert(trame.data, trame.cptOctet, Maxinterval, Mininterval);
+                    ((Mesure)trame).isConfigured = true;
                 }
             }
         }
@@ -225,8 +236,7 @@ namespace MeteoStation_2
                     }
                 }
             }
-            bData_received = true;
-            
+            bData_received = true; 
         }
         private bool checkListBase(Base newtrame)
         {

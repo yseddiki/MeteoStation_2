@@ -13,6 +13,6 @@ namespace MeteoStation_2.Class
         public int Type { get; set; }
         public int checksum { get; set; }
         public UInt32 data{ get; set; }
+       
     }
-  
 }
