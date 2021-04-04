@@ -14,8 +14,10 @@ namespace MeteoStation_2
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Une application qui permet de recevoir des données méteo
+        /// </summary>
         private Forms.FormAlarm AlarmPage;
-
         String DefaultCOM = "COM2";
         bool bdatagridConvert = false;
         DataTable dt = new DataTable();
@@ -77,6 +79,8 @@ namespace MeteoStation_2
 
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            ///////////////////////////////////////////////
+            ////Cette méthode sert à recevoir les données bruts
             if (bData_received == true)
             {
                 Console.WriteLine("DATA RECEIVED");
@@ -91,6 +95,8 @@ namespace MeteoStation_2
 
         private void SysoToTab()
         {
+            ///////////////////////////////////////////////
+            ////Cette méthode sert à pour debuger
             for (uint index = 0; index < BufferS.Length; index++)
             {
                 Console.WriteLine("Index :" + index + " | Value :" + BufferS[index]);
@@ -98,44 +104,43 @@ namespace MeteoStation_2
         }
         private void AddtoBufferF()
         {
-            //////////////////////////////////
-            ////Insertion to list
+            ///////////////////////////////////////////////
+            ////Cette méthode sert à inserer les données dans la liste finale
             for (int index = 0; index < BufferS.Length; index++)
             {
                 BufferF.Add(BufferS[index]);
             }
-            Console.WriteLine("BUFFER FINALE SIZE :" + BufferF.Count);
             AddTrame();
         }
         public bool checkframe()
         {
+            ////////////////////////////////////////////////////////
+            ////Cette méthode sert à  verifier le début d'une trame
             while (BufferF.Count > 14)
             {
                 if (BufferF[0] == 85 && BufferF[1] == 170 && BufferF[2] == 85 && (BufferF[3] < 11 || BufferF[3] == 50))
                 {
-                    Console.WriteLine("TRUE");
                     return true;
                 }
                 else
                 {
-                    Console.WriteLine("FALSE");
                     BufferF.RemoveAt(0);
                 }
             }
             return false;
         }
         public double GetDataConvert(UInt32 Data, int nbredata, int MaxInterval, int MinInterval)
-        {
+        {   ///////////////////////////////////////////////
+            ////Cette méthode sert à  convertir les données
             double DataConvert;
-            double denomiteur = Math.Pow(2, nbredata * 8) - 1;          
-            ///////////////////
-            ////Méthode
+            double denomiteur = Math.Pow(2, nbredata * 8) - 1;   
             DataConvert = ((double)(Data / denomiteur) * (MaxInterval - MinInterval)) + MinInterval;
             return DataConvert;
         }
         private void InsertValueInDatagrid()
         {
-            
+            /////////////////////////////
+            ///Cette méthode sert à inserer les valeurs dans le datagrid
             foreach (Base trame in LBase)
             {
                 if (trame.id < 6)
@@ -240,6 +245,8 @@ namespace MeteoStation_2
         }
         private bool checkListBase(Base newtrame)
         {
+            ///////////////////////////////////////////////
+            ////Cette méthode sert à rajouter la données dans le bon id
             foreach (Base Trame in LBase)
             {
                 if(Trame.id==newtrame.id)
@@ -251,6 +258,8 @@ namespace MeteoStation_2
         }
         private void uptadeData(Base newtrame)
         {
+            ///////////////////////////////////////////////////////////
+            ////Cette méthode sert à transferer les données de la trame 
             foreach (Base Trame in LBase)
             {
                 if (Trame.id == newtrame.id)
@@ -266,7 +275,9 @@ namespace MeteoStation_2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(timer1.Enabled==true)
+            ///////////////////////////////////////////////
+            ////Cette méthode sert à mettre en pause envoie des données
+            if (timer1.Enabled==true)
             {
                 timer1.Enabled = false;
                 button1.Text = "Start";
