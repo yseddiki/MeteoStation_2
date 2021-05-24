@@ -12,12 +12,11 @@ using System.Windows.Forms;
 
 namespace MeteoStation_2
 {
+
     public partial class Form1 : Form
     {
-        /// <summary>
-        /// Une application qui permet de recevoir des données méteo
-        /// </summary>
-        private Forms.FormAlarm AlarmPage;
+        DB db = new DB();
+        internal Forms.FormUser UserPage ;
         String DefaultCOM = "COM2";
         bool bdatagridConvert = false;
         DataTable dt = new DataTable();
@@ -31,6 +30,7 @@ namespace MeteoStation_2
         {
             InitializeComponent();
             createGrid();
+            initUserPage();
             initialSerialPort();
 
         }
@@ -59,7 +59,6 @@ namespace MeteoStation_2
             }
             dt.Rows.Add(50);
             datagridMeteo.DataSource = dt;
-
         }
 
         private void initialSerialPort()
@@ -287,6 +286,19 @@ namespace MeteoStation_2
                 timer1.Enabled = true;
                 button1.Text = "Pause";
             }
+        }
+        private void initUserPage()
+        { 
+            this.UserPage = new Forms.FormUser();
+            this.Controls.Add(UserPage);
+            UserPage.Location = new System.Drawing.Point(10, 230);
+            UserPage.Name = "FormUser";
+            UserPage.Size = new System.Drawing.Size(1000, 1000);
+            UserPage.TabIndex = 5;
+            UserPage.btRead.Click += delegate (object sender2, EventArgs e2)
+            {
+                db.button_RD_Click(sender2, e2, UserPage.dataGridViewUser);
+            };
         }
     }
 }
