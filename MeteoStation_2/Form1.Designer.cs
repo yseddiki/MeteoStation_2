@@ -48,6 +48,12 @@
             this.passwordInput = new System.Windows.Forms.TextBox();
             this.labelUser = new System.Windows.Forms.Label();
             this.labelPassword = new System.Windows.Forms.Label();
+            this.accountlabel = new System.Windows.Forms.Label();
+            this.tabcontrol = new System.Windows.Forms.TabControl();
+            this.tabPageDefault = new System.Windows.Forms.TabPage();
+            this.tabPageGraphiique = new System.Windows.Forms.TabPage();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonUpload = new System.Windows.Forms.Button();
             this.formAlarm1 = new MeteoStation_2.Forms.FormAlarm();
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -55,6 +61,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MinInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MaxInterval)).BeginInit();
+            this.tabcontrol.SuspendLayout();
+            this.tabPageDefault.SuspendLayout();
             this.SuspendLayout();
             // 
             // datagridMeteo
@@ -64,7 +72,7 @@
             this.datagridMeteo.AllowUserToResizeColumns = false;
             this.datagridMeteo.AllowUserToResizeRows = false;
             this.datagridMeteo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datagridMeteo.Location = new System.Drawing.Point(15, 41);
+            this.datagridMeteo.Location = new System.Drawing.Point(23, 19);
             this.datagridMeteo.Margin = new System.Windows.Forms.Padding(2);
             this.datagridMeteo.Name = "datagridMeteo";
             this.datagridMeteo.ReadOnly = true;
@@ -90,7 +98,7 @@
             this.groupBox1.Controls.Add(this.lb_IntervalMax);
             this.groupBox1.Controls.Add(this.nUD_MinInterval);
             this.groupBox1.Controls.Add(this.nUD_MaxInterval);
-            this.groupBox1.Location = new System.Drawing.Point(599, 41);
+            this.groupBox1.Location = new System.Drawing.Point(555, 19);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -195,7 +203,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(599, 236);
+            this.button1.Location = new System.Drawing.Point(555, 215);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(277, 22);
             this.button1.TabIndex = 3;
@@ -245,6 +253,65 @@
             this.labelPassword.TabIndex = 9;
             this.labelPassword.Text = "Password :";
             // 
+            // accountlabel
+            // 
+            this.accountlabel.AutoSize = true;
+            this.accountlabel.Location = new System.Drawing.Point(783, 15);
+            this.accountlabel.Name = "accountlabel";
+            this.accountlabel.Size = new System.Drawing.Size(0, 13);
+            this.accountlabel.TabIndex = 10;
+            // 
+            // tabcontrol
+            // 
+            this.tabcontrol.Controls.Add(this.tabPageDefault);
+            this.tabcontrol.Controls.Add(this.tabPageGraphiique);
+            this.tabcontrol.Location = new System.Drawing.Point(15, 51);
+            this.tabcontrol.Name = "tabcontrol";
+            this.tabcontrol.SelectedIndex = 0;
+            this.tabcontrol.Size = new System.Drawing.Size(861, 296);
+            this.tabcontrol.TabIndex = 11;
+            // 
+            // tabPageDefault
+            // 
+            this.tabPageDefault.Controls.Add(this.datagridMeteo);
+            this.tabPageDefault.Controls.Add(this.groupBox1);
+            this.tabPageDefault.Controls.Add(this.button1);
+            this.tabPageDefault.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDefault.Name = "tabPageDefault";
+            this.tabPageDefault.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDefault.Size = new System.Drawing.Size(853, 270);
+            this.tabPageDefault.TabIndex = 0;
+            this.tabPageDefault.Text = "Data";
+            this.tabPageDefault.UseVisualStyleBackColor = true;
+            // 
+            // tabPageGraphiique
+            // 
+            this.tabPageGraphiique.Location = new System.Drawing.Point(4, 22);
+            this.tabPageGraphiique.Name = "tabPageGraphiique";
+            this.tabPageGraphiique.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGraphiique.Size = new System.Drawing.Size(853, 270);
+            this.tabPageGraphiique.TabIndex = 1;
+            this.tabPageGraphiique.Text = "Graphique";
+            this.tabPageGraphiique.UseVisualStyleBackColor = true;
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(900, 73);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(109, 55);
+            this.buttonSave.TabIndex = 12;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            // 
+            // buttonUpload
+            // 
+            this.buttonUpload.Location = new System.Drawing.Point(900, 272);
+            this.buttonUpload.Name = "buttonUpload";
+            this.buttonUpload.Size = new System.Drawing.Size(109, 55);
+            this.buttonUpload.TabIndex = 13;
+            this.buttonUpload.Text = "Upload";
+            this.buttonUpload.UseVisualStyleBackColor = true;
+            // 
             // formAlarm1
             // 
             this.formAlarm1.Location = new System.Drawing.Point(393, 308);
@@ -258,15 +325,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1021, 570);
+            this.Controls.Add(this.buttonUpload);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.tabcontrol);
+            this.Controls.Add(this.accountlabel);
             this.Controls.Add(this.labelPassword);
             this.Controls.Add(this.labelUser);
             this.Controls.Add(this.passwordInput);
             this.Controls.Add(this.UserInput);
             this.Controls.Add(this.connectbutton);
             this.Controls.Add(this.formAlarm1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.datagridMeteo);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Meteo";
@@ -277,6 +345,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MinInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MaxInterval)).EndInit();
+            this.tabcontrol.ResumeLayout(false);
+            this.tabPageDefault.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -304,6 +374,12 @@
         private System.Windows.Forms.TextBox passwordInput;
         private System.Windows.Forms.Label labelUser;
         private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.Label accountlabel;
+        private System.Windows.Forms.TabControl tabcontrol;
+        private System.Windows.Forms.TabPage tabPageDefault;
+        private System.Windows.Forms.TabPage tabPageGraphiique;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonUpload;
     }
 
       

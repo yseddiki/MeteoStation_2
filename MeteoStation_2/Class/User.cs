@@ -9,14 +9,14 @@ namespace MeteoStation_2.Class
     class User
     {
         internal int ID;
-        internal String Type;
-        internal String Etat;
+        internal String name;
+        internal String pwd;
         internal int Access;
         public User(int iD, string type, string etat, int access)
         {
             ID = iD;
-            Type = type;
-            Etat = etat;
+            name = type;
+            pwd = etat;
             Access = access;
         }
     }

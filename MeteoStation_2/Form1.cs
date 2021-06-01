@@ -18,7 +18,8 @@ namespace MeteoStation_2
     {
         User user;
         DB db = new DB();
-        internal Forms.FormUser UserPage ;
+        internal Forms.FormUser UserForm ;
+        internal TabPage PageUser;
         String DefaultCOM = "COM2";
         bool bdatagridConvert = false;
         DataTable dt = new DataTable();
@@ -32,7 +33,7 @@ namespace MeteoStation_2
         {
             InitializeComponent();
             createGrid();
-            initUserPage();
+            //initUserPage();
             initialSerialPort();
 
         }
@@ -336,25 +337,36 @@ namespace MeteoStation_2
         }
         private void initUserPage()
         { 
-            this.UserPage = new Forms.FormUser();
-            this.Controls.Add(UserPage);
-            UserPage.Location = new System.Drawing.Point(10, 230);
-            UserPage.Name = "FormUser";
-            UserPage.Size = new System.Drawing.Size(1000, 1000);
-            UserPage.TabIndex = 5;
+            this.UserForm = new Forms.FormUser();
+            this.PageUser = new System.Windows.Forms.TabPage();
+            //TabPage
+            this.PageUser.Controls.Add(this.UserForm); 
+            this.PageUser.Location = new System.Drawing.Point(4, 22);
+            this.PageUser.Name = "tabPageUsers";
+            this.PageUser.Padding = new System.Windows.Forms.Padding(3);
+            this.PageUser.Size = new System.Drawing.Size(853, 257);
+            this.PageUser.TabIndex = 0;
+            this.PageUser.Text = "Users";
+            this.PageUser.UseVisualStyleBackColor = true;
+            this.tabcontrol.Controls.Add(this.PageUser);
+            ///Form
+            UserForm.Location = new System.Drawing.Point(10, 10);
+            UserForm.Name = "FormUser";
+            UserForm.Size = new System.Drawing.Size(1000, 300);
+            UserForm.TabIndex = 5;
             db.createDB();
-            db.linkDB(UserPage.dataGridViewUser);
-            UserPage.btRead.Click += delegate (object sender2, EventArgs e2)
+            db.linkDB(UserForm.dataGridViewUser);
+            UserForm.btRead.Click += delegate (object sender2, EventArgs e2)
             {
-                db.button_RD_Click(sender2, e2, UserPage.dataGridViewUser);
+                db.button_RD_Click(sender2, e2, UserForm.dataGridViewUser);
             };
-            UserPage.btInsert.Click += delegate (object sender2, EventArgs e2)
+            UserForm.btInsert.Click += delegate (object sender2, EventArgs e2)
             {
-                db.button_Insert_Click(sender2, e2, UserPage.dataGridViewUser,UserPage.id.Text, UserPage.name.Text,UserPage.pwd.Text);
+                db.button_Insert_Click(sender2, e2, UserForm.dataGridViewUser,UserForm.id.Text, UserForm.name.Text,UserForm.pwd.Text);
             };
-            UserPage.btDelete.Click += delegate (object sender2, EventArgs e2)
+            UserForm.btDelete.Click += delegate (object sender2, EventArgs e2)
             {
-                db.button_DL_Click(sender2, e2, UserPage.dataGridViewUser, UserPage.name.Text);
+                db.button_DL_Click(sender2, e2, UserForm.dataGridViewUser, UserForm.name.Text);
             };
         }
 
@@ -367,10 +379,45 @@ namespace MeteoStation_2
             }
             else
             {
-                la
-                UserInput
+                SetVisibleConnect(false);
+                SetUserName(true);
+                initUserPage();
+            }
+        }
+
+        private void SetUserName(bool v)
+        {
+            if (v)
+            {
+                accountlabel.Visible = true;
+                accountlabel.Text = "Account :" + user.name + " Level Access :" + user.Access; 
+            }
+            else
+            {
+                accountlabel.Text = "";
+                accountlabel.Visible = false;
+
+            }
+        }
+       
+        private void SetVisibleConnect(bool v)
+        {
+            if (v)
+            {
+                labelUser.Visible = true;
+                labelPassword.Visible = true;
+                UserInput.Visible = true;
+                passwordInput.Visible = true;
+                connectbutton.Visible = true;
+            }
+            else
+            {
+                labelUser.Visible = false;
+                labelPassword.Visible = false;
+                UserInput.Visible = false;
                 passwordInput.Visible = false;
                 connectbutton.Visible = false;
+                
             }
         }
     }
