@@ -295,9 +295,19 @@ namespace MeteoStation_2
             UserPage.Name = "FormUser";
             UserPage.Size = new System.Drawing.Size(1000, 1000);
             UserPage.TabIndex = 5;
+            db.createDB();
+            db.linkDB(UserPage.dataGridViewUser);
             UserPage.btRead.Click += delegate (object sender2, EventArgs e2)
             {
                 db.button_RD_Click(sender2, e2, UserPage.dataGridViewUser);
+            };
+            UserPage.btInsert.Click += delegate (object sender2, EventArgs e2)
+            {
+                db.button_Insert_Click(sender2, e2, UserPage.dataGridViewUser,UserPage.id.Text, UserPage.name.Text,UserPage.pwd.Text);
+            };
+            UserPage.btDelete.Click += delegate (object sender2, EventArgs e2)
+            {
+                db.button_DL_Click(sender2, e2, UserPage.dataGridViewUser, UserPage.name.Text);
             };
         }
     }

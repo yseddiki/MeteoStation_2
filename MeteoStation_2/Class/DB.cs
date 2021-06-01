@@ -30,7 +30,7 @@ namespace MeteoStation_2.Class
 		internal DataColumn Column_H = new DataColumn("H", System.Type.GetType("System.Boolean"));
 		internal DataColumn Column_I = new DataColumn("I", System.Type.GetType("System.Boolean"));
 		internal DataColumn Column_J = new DataColumn("J", System.Type.GetType("System.Boolean"));
-
+		private Int16 id ;
 		internal static string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;"
 										+
 										@"Data Source=db\DB_UserAccess.accdb;Cache Authentication=True";
@@ -52,35 +52,39 @@ namespace MeteoStation_2.Class
 			AccessTable.Columns.Add(Column_I);
 			AccessTable.Columns.Add(Column_J);
 		}
+		internal void linkDB(DataGridView dg)
+		{
+			dg.DataSource = UserTable;
+		}
 		private void buttonEvent(object sender, EventArgs e)
 		{
 			if (this.ButtonClick != null) this.ButtonClick(this, e);
 		}
 		internal void button_RD_Click(object sender, EventArgs e,DataGridView dg)
 		{
-			MessageBox.Show("Hello");
+			MessageBox.Show("Read");
 			string CommandText = "SELECT * from UserTable " + "WHERE AccessKey_Id = " + "1 " + "ORDER BY UserName;";
-
 			UserTable.Rows.Clear();
-
 			using (OleDbConnection connection = new OleDbConnection(connectionString))
 			{
 				OleDbCommand DBCommand = new OleDbCommand(CommandText, connection);
-
 				try
 				{
 					connection.Open();
-
 					OleDbDataReader DBReader = DBCommand.ExecuteReader();
-
 					if (DBReader.HasRows)
 					{
+						DataRow row;
 						while (DBReader.Read())
 						{
-							UserTable.Rows.Add(new object[] { DBReader[0], DBReader[1], DBReader[2], DBReader[3] });
+							row = UserTable.NewRow();
+							row["A"] = DBReader[0];
+							row["B"] = DBReader[1];
+							row["C"] = DBReader[2];
+							row["D"] = DBReader[3];
+							UserTable.Rows.Add(row);
 						}
 					}
-
 					DBReader.Close();
 					connection.Close();
 				}
@@ -90,6 +94,82 @@ namespace MeteoStation_2.Class
 				}
 			}
 			dg.DataSource = UserTable;
+		}
+		internal void button_DL_Click(object sender, EventArgs e, DataGridView dg,String name)
+		{
+			MessageBox.Show("Read");
+			string CommandText = "DELETE FROM UserTable WHERE UserName = '"+name+"'";
+			UserTable.Rows.Clear();
+			using (OleDbConnection connection = new OleDbConnection(connectionString))
+			{
+				OleDbCommand DBCommand = new OleDbCommand(CommandText, connection);
+				try
+				{
+					connection.Open();
+					OleDbDataReader DBReader = DBCommand.ExecuteReader();
+					if (DBReader.HasRows)
+					{
+						DataRow row;
+						while (DBReader.Read())
+						{
+
+							row = UserTable.NewRow();
+							row["A"] = DBReader[0];
+							row["B"] = DBReader[1];
+							row["C"] = DBReader[2];
+							row["D"] = DBReader[3];
+							UserTable.Rows.Add(row);
+						}
+					}
+					DBReader.Close();
+					connection.Close();
+				}
+				catch (Exception ex)
+				{
+					System.Windows.MessageBox.Show(ex.Message);
+				}
+			}
+		 
+			dg.DataSource = UserTable;
+		}
+		internal void button_Insert_Click(object sender, EventArgs e, DataGridView dg ,String id,String name, String pwd)
+		{
+			MessageBox.Show("Insert");
+			if (verification(id, name, pwd))
+			{
+				using (OleDbConnection connection = new OleDbConnection(connectionString))
+				{
+					try
+					{
+						OleDbCommand DBCommand = connection.CreateCommand();
+						connection.Open();
+						DBCommand.CommandText = "insert into UserTable values('" + id + "', '" + name + "', '" + pwd + "','1' )";
+						DBCommand.Connection = connection;
+						DBCommand.ExecuteNonQuery();
+						connection.Close();
+					}
+					catch (Exception ex)
+					{
+						System.Windows.MessageBox.Show(ex.Message);
+					}
+				}
+				dg.DataSource = UserTable;
+			}
+			else
+			{
+				System.Windows.MessageBox.Show("Vous devez remplir les champs");
+			}
+		}
+		private bool verification(String id, String name, String pwd)
+		{
+			if (id.Length.Equals(0)|| name.Length.Equals(0) || pwd.Length.Equals(0))
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 	}
 }
