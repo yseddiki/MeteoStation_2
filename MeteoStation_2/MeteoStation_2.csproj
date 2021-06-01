@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Class\Base.cs" />
     <Compile Include="Class\Alarm.cs" />
+    <Compile Include="Class\User.cs" />
     <Compile Include="Class\DB.cs" />
     <Compile Include="Class\Mesure.cs" />
     <Compile Include="Form1.cs">

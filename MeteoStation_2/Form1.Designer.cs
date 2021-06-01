@@ -43,6 +43,11 @@
             this.nUD_MaxInterval = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
+            this.connectbutton = new System.Windows.Forms.Button();
+            this.UserInput = new System.Windows.Forms.TextBox();
+            this.passwordInput = new System.Windows.Forms.TextBox();
+            this.labelUser = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
             this.formAlarm1 = new MeteoStation_2.Forms.FormAlarm();
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -59,7 +64,8 @@
             this.datagridMeteo.AllowUserToResizeColumns = false;
             this.datagridMeteo.AllowUserToResizeRows = false;
             this.datagridMeteo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datagridMeteo.Location = new System.Drawing.Point(58, 29);
+            this.datagridMeteo.Location = new System.Drawing.Point(15, 41);
+            this.datagridMeteo.Margin = new System.Windows.Forms.Padding(2);
             this.datagridMeteo.Name = "datagridMeteo";
             this.datagridMeteo.ReadOnly = true;
             this.datagridMeteo.RowHeadersVisible = false;
@@ -70,7 +76,7 @@
             this.datagridMeteo.ShowCellToolTips = false;
             this.datagridMeteo.ShowEditingIcon = false;
             this.datagridMeteo.ShowRowErrors = false;
-            this.datagridMeteo.Size = new System.Drawing.Size(746, 335);
+            this.datagridMeteo.Size = new System.Drawing.Size(497, 218);
             this.datagridMeteo.TabIndex = 0;
             // 
             // groupBox1
@@ -84,18 +90,21 @@
             this.groupBox1.Controls.Add(this.lb_IntervalMax);
             this.groupBox1.Controls.Add(this.nUD_MinInterval);
             this.groupBox1.Controls.Add(this.nUD_MaxInterval);
-            this.groupBox1.Location = new System.Drawing.Point(898, 29);
+            this.groupBox1.Location = new System.Drawing.Point(599, 41);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(416, 293);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(277, 190);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parametre";
             // 
             // bt_Update
             // 
-            this.bt_Update.Location = new System.Drawing.Point(153, 237);
+            this.bt_Update.Location = new System.Drawing.Point(102, 154);
+            this.bt_Update.Margin = new System.Windows.Forms.Padding(2);
             this.bt_Update.Name = "bt_Update";
-            this.bt_Update.Size = new System.Drawing.Size(124, 43);
+            this.bt_Update.Size = new System.Drawing.Size(83, 28);
             this.bt_Update.TabIndex = 8;
             this.bt_Update.Text = "Update";
             this.bt_Update.UseVisualStyleBackColor = true;
@@ -104,70 +113,78 @@
             // lb_MinAlarm
             // 
             this.lb_MinAlarm.AutoSize = true;
-            this.lb_MinAlarm.Location = new System.Drawing.Point(243, 118);
+            this.lb_MinAlarm.Location = new System.Drawing.Point(162, 77);
+            this.lb_MinAlarm.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb_MinAlarm.Name = "lb_MinAlarm";
-            this.lb_MinAlarm.Size = new System.Drawing.Size(79, 20);
+            this.lb_MinAlarm.Size = new System.Drawing.Size(53, 13);
             this.lb_MinAlarm.TabIndex = 7;
             this.lb_MinAlarm.Text = "Alarm Min";
             // 
             // lb_AlarmMax
             // 
             this.lb_AlarmMax.AutoSize = true;
-            this.lb_AlarmMax.Location = new System.Drawing.Point(243, 35);
+            this.lb_AlarmMax.Location = new System.Drawing.Point(162, 23);
+            this.lb_AlarmMax.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb_AlarmMax.Name = "lb_AlarmMax";
-            this.lb_AlarmMax.Size = new System.Drawing.Size(83, 20);
+            this.lb_AlarmMax.Size = new System.Drawing.Size(56, 13);
             this.lb_AlarmMax.TabIndex = 6;
             this.lb_AlarmMax.Text = "Alarm Max";
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(248, 142);
+            this.numericUpDown1.Location = new System.Drawing.Point(165, 92);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 26);
+            this.numericUpDown1.Size = new System.Drawing.Size(80, 20);
             this.numericUpDown1.TabIndex = 5;
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(248, 58);
+            this.numericUpDown2.Location = new System.Drawing.Point(165, 38);
+            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 26);
+            this.numericUpDown2.Size = new System.Drawing.Size(80, 20);
             this.numericUpDown2.TabIndex = 4;
             // 
             // lb_IntervalMin
             // 
             this.lb_IntervalMin.AutoSize = true;
-            this.lb_IntervalMin.Location = new System.Drawing.Point(20, 118);
+            this.lb_IntervalMin.Location = new System.Drawing.Point(13, 77);
+            this.lb_IntervalMin.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb_IntervalMin.Name = "lb_IntervalMin";
-            this.lb_IntervalMin.Size = new System.Drawing.Size(90, 20);
+            this.lb_IntervalMin.Size = new System.Drawing.Size(62, 13);
             this.lb_IntervalMin.TabIndex = 3;
             this.lb_IntervalMin.Text = "Interval Min";
             // 
             // lb_IntervalMax
             // 
             this.lb_IntervalMax.AutoSize = true;
-            this.lb_IntervalMax.Location = new System.Drawing.Point(20, 35);
+            this.lb_IntervalMax.Location = new System.Drawing.Point(13, 23);
+            this.lb_IntervalMax.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb_IntervalMax.Name = "lb_IntervalMax";
-            this.lb_IntervalMax.Size = new System.Drawing.Size(94, 20);
+            this.lb_IntervalMax.Size = new System.Drawing.Size(65, 13);
             this.lb_IntervalMax.TabIndex = 2;
             this.lb_IntervalMax.Text = "Interval Max";
             // 
             // nUD_MinInterval
             // 
-            this.nUD_MinInterval.Location = new System.Drawing.Point(26, 143);
+            this.nUD_MinInterval.Location = new System.Drawing.Point(17, 93);
+            this.nUD_MinInterval.Margin = new System.Windows.Forms.Padding(2);
             this.nUD_MinInterval.Minimum = new decimal(new int[] {
             100,
             0,
             0,
             -2147483648});
             this.nUD_MinInterval.Name = "nUD_MinInterval";
-            this.nUD_MinInterval.Size = new System.Drawing.Size(120, 26);
+            this.nUD_MinInterval.Size = new System.Drawing.Size(80, 20);
             this.nUD_MinInterval.TabIndex = 1;
             // 
             // nUD_MaxInterval
             // 
-            this.nUD_MaxInterval.Location = new System.Drawing.Point(24, 58);
+            this.nUD_MaxInterval.Location = new System.Drawing.Point(16, 38);
+            this.nUD_MaxInterval.Margin = new System.Windows.Forms.Padding(2);
             this.nUD_MaxInterval.Name = "nUD_MaxInterval";
-            this.nUD_MaxInterval.Size = new System.Drawing.Size(120, 26);
+            this.nUD_MaxInterval.Size = new System.Drawing.Size(80, 20);
             this.nUD_MaxInterval.TabIndex = 0;
             // 
             // timer1
@@ -178,31 +195,79 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(898, 330);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(599, 236);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(416, 34);
+            this.button1.Size = new System.Drawing.Size(277, 22);
             this.button1.TabIndex = 3;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // connectbutton
+            // 
+            this.connectbutton.Location = new System.Drawing.Point(369, 6);
+            this.connectbutton.Name = "connectbutton";
+            this.connectbutton.Size = new System.Drawing.Size(75, 23);
+            this.connectbutton.TabIndex = 5;
+            this.connectbutton.Text = "Connect";
+            this.connectbutton.UseVisualStyleBackColor = true;
+            this.connectbutton.Click += new System.EventHandler(this.connectbutton_Click);
+            // 
+            // UserInput
+            // 
+            this.UserInput.Location = new System.Drawing.Point(79, 8);
+            this.UserInput.Name = "UserInput";
+            this.UserInput.Size = new System.Drawing.Size(100, 20);
+            this.UserInput.TabIndex = 6;
+            // 
+            // passwordInput
+            // 
+            this.passwordInput.Location = new System.Drawing.Point(263, 8);
+            this.passwordInput.Name = "passwordInput";
+            this.passwordInput.Size = new System.Drawing.Size(100, 20);
+            this.passwordInput.TabIndex = 7;
+            // 
+            // labelUser
+            // 
+            this.labelUser.AutoSize = true;
+            this.labelUser.Location = new System.Drawing.Point(12, 11);
+            this.labelUser.Name = "labelUser";
+            this.labelUser.Size = new System.Drawing.Size(61, 13);
+            this.labelUser.TabIndex = 8;
+            this.labelUser.Text = "Username :";
+            // 
+            // labelPassword
+            // 
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.Location = new System.Drawing.Point(196, 11);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(59, 13);
+            this.labelPassword.TabIndex = 9;
+            this.labelPassword.Text = "Password :";
+            // 
             // formAlarm1
             // 
-            this.formAlarm1.Location = new System.Drawing.Point(590, 474);
+            this.formAlarm1.Location = new System.Drawing.Point(393, 308);
+            this.formAlarm1.Margin = new System.Windows.Forms.Padding(1);
             this.formAlarm1.Name = "formAlarm1";
-            this.formAlarm1.Size = new System.Drawing.Size(8, 8);
+            this.formAlarm1.Size = new System.Drawing.Size(5, 5);
             this.formAlarm1.TabIndex = 4;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1531, 877);
+            this.ClientSize = new System.Drawing.Size(1021, 570);
+            this.Controls.Add(this.labelPassword);
+            this.Controls.Add(this.labelUser);
+            this.Controls.Add(this.passwordInput);
+            this.Controls.Add(this.UserInput);
+            this.Controls.Add(this.connectbutton);
             this.Controls.Add(this.formAlarm1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.datagridMeteo);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Meteo";
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).EndInit();
@@ -213,6 +278,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MinInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MaxInterval)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -233,6 +299,11 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button1;
         private Forms.FormAlarm formAlarm1;
+        private System.Windows.Forms.Button connectbutton;
+        private System.Windows.Forms.TextBox UserInput;
+        private System.Windows.Forms.TextBox passwordInput;
+        private System.Windows.Forms.Label labelUser;
+        private System.Windows.Forms.Label labelPassword;
     }
 
       

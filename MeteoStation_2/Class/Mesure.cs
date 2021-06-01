@@ -9,8 +9,11 @@ namespace MeteoStation_2.Class
 {
     class Mesure : Base
     {
-        internal bool isConfigured { get; set; } = false;
-        internal double DataConvert;      
+        internal int MinVal{ get; set; }
+        internal int MaxVal { get; set; }
+        internal int MinAlarm{ get; set; }
+        internal int MaxAlarm { get; set; }   
+        internal double DataConvert { get; set; }
     }
 
 }

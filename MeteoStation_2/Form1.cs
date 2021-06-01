@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace MeteoStation_2
 
     public partial class Form1 : Form
     {
+        User user;
         DB db = new DB();
         internal Forms.FormUser UserPage ;
         String DefaultCOM = "COM2";
@@ -92,13 +94,59 @@ namespace MeteoStation_2
             }
         }
 
-        private void SysoToTab()
+        private void btSave_Click(object sender, EventArgs e)
         {
-            ///////////////////////////////////////////////
-            ////Cette méthode sert à pour debuger
-            for (uint index = 0; index < BufferS.Length; index++)
+            //cette fontion sauvegarde les paramètres entrés pour chaque ID dans un excel
+            try
             {
-                Console.WriteLine("Index :" + index + " | Value :" + BufferS[index]);
+                var filePath = "./../../Data.csv";
+                using (StreamWriter writer = new StreamWriter(new FileStream(filePath, FileMode.Create, FileAccess.Write)))
+                {
+                    foreach (Base elem in LBase )
+                    {
+                        if (elem.isConfigured)
+                        {
+                            writer.WriteLine(elem.id + "," + ((Mesure)elem).MinVal + "," + ((Mesure)elem).MaxVal+ "," + ((Mesure)elem).MinAlarm + "," + ((Mesure)elem).MaxAlarm);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btUpload_Click(object sender, EventArgs e)
+        {
+            //cette fonction charge les paramètres qui sont dans un fichiers csv
+            try
+            {
+                var filePath = "./../../Data.csv";
+                using (var reader = new StreamReader(filePath))
+                {
+                    List<string> listConfig = new List<string>();
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        var values = line.Split(',');
+
+                        foreach (Base elem in LBase)
+                        {
+                            if (elem.id == int.Parse(values[0]))
+                            {
+                                ((Mesure)elem).MinVal = int.Parse(values[1]);
+                                ((Mesure)elem).MaxVal = int.Parse(values[2]);
+                                ((Mesure)elem).MinAlarm = int.Parse(values[3]);
+                                ((Mesure)elem).MaxAlarm = int.Parse(values[4]);
+                                elem.isConfigured = true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         private void AddtoBufferF()
@@ -168,7 +216,6 @@ namespace MeteoStation_2
         }
         private void bt_Update_Click(object sender, EventArgs e)
         {
-            
             foreach (Base trame in LBase)
             {
                 bdatagridConvert = true;
@@ -309,6 +356,22 @@ namespace MeteoStation_2
             {
                 db.button_DL_Click(sender2, e2, UserPage.dataGridViewUser, UserPage.name.Text);
             };
+        }
+
+        private void connectbutton_Click(object sender, EventArgs e)
+        {
+           user = db.ConnectDB(UserInput.Text, passwordInput.Text);
+            if(user.Equals(null))
+            {
+                
+            }
+            else
+            {
+                la
+                UserInput
+                passwordInput.Visible = false;
+                connectbutton.Visible = false;
+            }
         }
     }
 }

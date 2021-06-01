@@ -30,7 +30,6 @@ namespace MeteoStation_2.Class
 		internal DataColumn Column_H = new DataColumn("H", System.Type.GetType("System.Boolean"));
 		internal DataColumn Column_I = new DataColumn("I", System.Type.GetType("System.Boolean"));
 		internal DataColumn Column_J = new DataColumn("J", System.Type.GetType("System.Boolean"));
-		private Int16 id ;
 		internal static string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;"
 										+
 										@"Data Source=db\DB_UserAccess.accdb;Cache Authentication=True";
@@ -106,22 +105,7 @@ namespace MeteoStation_2.Class
 				try
 				{
 					connection.Open();
-					OleDbDataReader DBReader = DBCommand.ExecuteReader();
-					if (DBReader.HasRows)
-					{
-						DataRow row;
-						while (DBReader.Read())
-						{
-
-							row = UserTable.NewRow();
-							row["A"] = DBReader[0];
-							row["B"] = DBReader[1];
-							row["C"] = DBReader[2];
-							row["D"] = DBReader[3];
-							UserTable.Rows.Add(row);
-						}
-					}
-					DBReader.Close();
+					DBCommand.ExecuteNonQuery();
 					connection.Close();
 				}
 				catch (Exception ex)
@@ -141,10 +125,10 @@ namespace MeteoStation_2.Class
 				{
 					try
 					{
-						OleDbCommand DBCommand = connection.CreateCommand();
 						connection.Open();
-						DBCommand.CommandText = "insert into UserTable values('" + id + "', '" + name + "', '" + pwd + "','1' )";
+						OleDbCommand DBCommand = new OleDbCommand();
 						DBCommand.Connection = connection;
+						DBCommand.CommandText = "insert into UserTable values(" + id + ", '" + name + "', '" + pwd + "', 1 )";
 						DBCommand.ExecuteNonQuery();
 						connection.Close();
 					}
@@ -160,6 +144,59 @@ namespace MeteoStation_2.Class
 				System.Windows.MessageBox.Show("Vous devez remplir les champs");
 			}
 		}
+
+		internal User ConnectDB(String name, String pwd)
+		{
+			string CommandText = "SELECT * from UserTable WHERE UserName = '"+name+"'" + " AND UserPassword = '" +pwd+ "'";
+			if (verificationConnect(name, pwd))
+			{
+				using (OleDbConnection connection = new OleDbConnection(connectionString))
+				{
+					try
+					{
+						connection.Open();
+						OleDbCommand DBCommand = new OleDbCommand(CommandText, connection);
+						OleDbDataReader DBReader = DBCommand.ExecuteReader();
+						if (DBReader.HasRows)
+						{
+							if (DBReader.Read())
+							{
+								return new User((int)DBReader[0], DBReader[1].ToString(), DBReader[2].ToString(), (int)DBReader[3]);
+							}
+						}
+						else
+						{
+							System.Windows.MessageBox.Show("Votre compte n'est pas dans la database");
+							return null;
+						}
+					}
+					catch (Exception ex)
+					{
+						System.Windows.MessageBox.Show(ex.Message);
+						return null;
+					}
+				}
+			}
+			else
+			{
+				System.Windows.MessageBox.Show("Vous devez remplir les champs");
+				return null;
+			}
+			return null;
+		}
+
+		private bool verificationConnect(string name, string pwd)
+		{
+			if (name.Length.Equals(0) || pwd.Length.Equals(0))
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
 		private bool verification(String id, String name, String pwd)
 		{
 			if (id.Length.Equals(0)|| name.Length.Equals(0) || pwd.Length.Equals(0))
