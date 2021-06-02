@@ -21,19 +21,16 @@ namespace MeteoStation_2
         internal Forms.FormUser UserForm ;
         internal TabPage PageUser;
         String DefaultCOM = "COM2";
-        bool bdatagridConvert = false;
         DataTable dt = new DataTable();
         bool bData_received = true;
         byte[] BufferS;
         List<Base> LBase = new List<Base>();
         List<byte> BufferF = new List<byte>();
         int count;
-        int cptRead = 0;
         public Form1()
         {
             InitializeComponent();
             createGrid();
-            //initUserPage();
             initialSerialPort();
 
         }
@@ -50,7 +47,7 @@ namespace MeteoStation_2
             dt.Columns.Add(dc);
             dc = new DataColumn("Type", typeof(int));
             dt.Columns.Add(dc);
-            dc = new DataColumn("Data", typeof(double));
+            dc = new DataColumn("Data");
             dt.Columns.Add(dc);
             dc = new DataColumn("CheckSum", typeof(int));
             dt.Columns.Add(dc);
@@ -89,8 +86,7 @@ namespace MeteoStation_2
                 count = Serial.BytesToRead;
                 BufferS = new byte[count];
                 Serial.Read(BufferS, 0, count);
-                bData_received = false;
-                cptRead++;
+                bData_received = false;                
                 AddtoBufferF();
             }
         }
@@ -105,9 +101,9 @@ namespace MeteoStation_2
                 {
                     foreach (Base elem in LBase )
                     {
-                        if (elem.isConfigured)
+                        if (elem.isConvert)
                         {
-                            writer.WriteLine(elem.id + "," + ((Mesure)elem).MinVal + "," + ((Mesure)elem).MaxVal+ "," + ((Mesure)elem).MinAlarm + "," + ((Mesure)elem).MaxAlarm);
+                            writer.WriteLine(elem.id + "," + ((Mesure)elem).Minint + "," + ((Mesure)elem).Maxint+ "," + ((Mesure)elem).MinAlarm + "," + ((Mesure)elem).MaxAlarm);
                         }
                     }
                 }
@@ -135,11 +131,11 @@ namespace MeteoStation_2
                         {
                             if (elem.id == int.Parse(values[0]))
                             {
-                                ((Mesure)elem).MinVal = int.Parse(values[1]);
-                                ((Mesure)elem).MaxVal = int.Parse(values[2]);
+                                ((Mesure)elem).Minint= int.Parse(values[1]);
+                                ((Mesure)elem).Maxint = int.Parse(values[2]);
                                 ((Mesure)elem).MinAlarm = int.Parse(values[3]);
                                 ((Mesure)elem).MaxAlarm = int.Parse(values[4]);
-                                elem.isConfigured = true;
+                                elem.isConvert = true;
                             }
                         }
                     }
@@ -195,13 +191,13 @@ namespace MeteoStation_2
                 {
                     dt.Rows[(trame.id)].SetField(1, trame.cptOctet);
                     dt.Rows[(trame.id)].SetField(2, trame.Type);
-                    if (bdatagridConvert == false)
+                    if (trame.isConvert == false)
                     {
                         dt.Rows[(trame.id)].SetField(3, (double)trame.data);
                     }
                     else
                     {
-                        dt.Rows[(trame.id)].SetField(3,((Mesure)trame).DataConvert);
+                        dt.Rows[(trame.id)].SetField(3,((Mesure)trame).getDataConvert());
                     }
                     dt.Rows[(trame.id)].SetField(4, trame.checksum);
                 }
@@ -219,16 +215,22 @@ namespace MeteoStation_2
         {
             foreach (Base trame in LBase)
             {
-                bdatagridConvert = true;
-                if (trame.id == 2)
+                if (trame.id == numericUpDownID.Value)
                 {
                     int Maxinterval = (int)nUD_MaxInterval.Value;
                     int Mininterval = (int)nUD_MinInterval.Value;
-                    ((Mesure)trame).DataConvert=GetDataConvert(trame.data, trame.cptOctet, Maxinterval, Mininterval);
-                    ((Mesure)trame).isConfigured = true;
+                    int MaxAlarm = (int)numericUpDownAlarmMax.Value;
+                    int MinAlarm = (int)numericUpDownAlarmMin.Value;
+
+                    ((Mesure)trame).MaxAlarm = MaxAlarm;
+                    ((Mesure)trame).MinAlarm = MinAlarm;
+                    ((Mesure)trame).Maxint= Maxinterval;
+                    ((Mesure)trame).Minint= Mininterval;                  
+                    ((Mesure)trame).isConvert = true;
                 }
             }
         }
+        
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -381,7 +383,11 @@ namespace MeteoStation_2
             {
                 SetVisibleConnect(false);
                 SetUserName(true);
-                initUserPage();
+                if(user.Access == 1)
+                {
+                    initUserPage();
+                }
+                
             }
         }
 
