@@ -55,13 +55,9 @@ namespace MeteoStation_2.Class
 		{
 			dg.DataSource = UserTable;
 		}
-		private void buttonEvent(object sender, EventArgs e)
-		{
-			if (this.ButtonClick != null) this.ButtonClick(this, e);
-		}
+	
 		internal void button_RD_Click(object sender, EventArgs e,DataGridView dg)
 		{
-			MessageBox.Show("Read");
 			string CommandText = "SELECT * from UserTable " + "WHERE AccessKey_Id = " + "1 " + "ORDER BY UserName;";
 			UserTable.Rows.Clear();
 			using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -96,7 +92,6 @@ namespace MeteoStation_2.Class
 		}
 		internal void button_DL_Click(object sender, EventArgs e, DataGridView dg,String name)
 		{
-			MessageBox.Show("Read");
 			string CommandText = "DELETE FROM UserTable WHERE UserName = '"+name+"'";
 			UserTable.Rows.Clear();
 			using (OleDbConnection connection = new OleDbConnection(connectionString))

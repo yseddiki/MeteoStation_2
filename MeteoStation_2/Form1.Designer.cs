@@ -32,8 +32,8 @@
             this.datagridMeteo = new System.Windows.Forms.DataGridView();
             this.Serial = new System.IO.Ports.SerialPort(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBoxID = new System.Windows.Forms.ComboBox();
             this.ID = new System.Windows.Forms.Label();
-            this.numericUpDownID = new System.Windows.Forms.NumericUpDown();
             this.bt_Update = new System.Windows.Forms.Button();
             this.lb_MinAlarm = new System.Windows.Forms.Label();
             this.lb_AlarmMax = new System.Windows.Forms.Label();
@@ -55,11 +55,9 @@
             this.tabPageDefault = new System.Windows.Forms.TabPage();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonUpload = new System.Windows.Forms.Button();
-            this.tabPageGraphiique = new System.Windows.Forms.TabPage();
             this.formAlarm1 = new MeteoStation_2.Forms.FormAlarm();
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAlarmMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAlarmMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MinInterval)).BeginInit();
@@ -75,7 +73,7 @@
             this.datagridMeteo.AllowUserToResizeColumns = false;
             this.datagridMeteo.AllowUserToResizeRows = false;
             this.datagridMeteo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datagridMeteo.Location = new System.Drawing.Point(23, 19);
+            this.datagridMeteo.Location = new System.Drawing.Point(23, 12);
             this.datagridMeteo.Margin = new System.Windows.Forms.Padding(2);
             this.datagridMeteo.Name = "datagridMeteo";
             this.datagridMeteo.ReadOnly = true;
@@ -92,8 +90,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBoxID);
             this.groupBox1.Controls.Add(this.ID);
-            this.groupBox1.Controls.Add(this.numericUpDownID);
             this.groupBox1.Controls.Add(this.bt_Update);
             this.groupBox1.Controls.Add(this.lb_MinAlarm);
             this.groupBox1.Controls.Add(this.lb_AlarmMax);
@@ -107,10 +105,18 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(277, 190);
+            this.groupBox1.Size = new System.Drawing.Size(277, 211);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parametre";
+            // 
+            // comboBoxID
+            // 
+            this.comboBoxID.FormattingEnabled = true;
+            this.comboBoxID.Location = new System.Drawing.Point(19, 144);
+            this.comboBoxID.Name = "comboBoxID";
+            this.comboBoxID.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxID.TabIndex = 11;
             // 
             // ID
             // 
@@ -121,19 +127,6 @@
             this.ID.Size = new System.Drawing.Size(18, 13);
             this.ID.TabIndex = 10;
             this.ID.Text = "ID";
-            // 
-            // numericUpDownID
-            // 
-            this.numericUpDownID.Location = new System.Drawing.Point(16, 144);
-            this.numericUpDownID.Margin = new System.Windows.Forms.Padding(2);
-            this.numericUpDownID.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownID.Name = "numericUpDownID";
-            this.numericUpDownID.Size = new System.Drawing.Size(80, 20);
-            this.numericUpDownID.TabIndex = 9;
             // 
             // bt_Update
             // 
@@ -231,7 +224,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(555, 215);
+            this.button1.Location = new System.Drawing.Point(555, 235);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(277, 22);
             this.button1.TabIndex = 3;
@@ -292,7 +285,6 @@
             // tabcontrol
             // 
             this.tabcontrol.Controls.Add(this.tabPageDefault);
-            this.tabcontrol.Controls.Add(this.tabPageGraphiique);
             this.tabcontrol.Location = new System.Drawing.Point(15, 51);
             this.tabcontrol.Name = "tabcontrol";
             this.tabcontrol.SelectedIndex = 0;
@@ -334,16 +326,6 @@
             this.buttonUpload.UseVisualStyleBackColor = true;
             this.buttonUpload.Click += new System.EventHandler(this.btUpload_Click);
             // 
-            // tabPageGraphiique
-            // 
-            this.tabPageGraphiique.Location = new System.Drawing.Point(4, 22);
-            this.tabPageGraphiique.Name = "tabPageGraphiique";
-            this.tabPageGraphiique.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGraphiique.Size = new System.Drawing.Size(853, 270);
-            this.tabPageGraphiique.TabIndex = 1;
-            this.tabPageGraphiique.Text = "Graphique";
-            this.tabPageGraphiique.UseVisualStyleBackColor = true;
-            // 
             // formAlarm1
             // 
             this.formAlarm1.Location = new System.Drawing.Point(393, 308);
@@ -371,7 +353,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAlarmMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAlarmMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_MinInterval)).EndInit();
@@ -408,11 +389,10 @@
         private System.Windows.Forms.Label accountlabel;
         private System.Windows.Forms.TabControl tabcontrol;
         private System.Windows.Forms.TabPage tabPageDefault;
-        private System.Windows.Forms.TabPage tabPageGraphiique;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonUpload;
         private System.Windows.Forms.Label ID;
-        private System.Windows.Forms.NumericUpDown numericUpDownID;
+        private System.Windows.Forms.ComboBox comboBoxID;
     }
 
       

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Windows.Forms.DataVisualization.Charting;
 namespace MeteoStation_2
 {
 
@@ -20,16 +20,22 @@ namespace MeteoStation_2
         DB db = new DB();
         internal Forms.FormUser UserForm ;
         internal TabPage PageUser;
+        internal Forms.FormGraph GraphForm;
+        internal Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+        int cpt = 1 ;
+        internal TabPage PageGraph;
         String DefaultCOM = "COM2";
         DataTable dt = new DataTable();
         bool bData_received = true;
         byte[] BufferS;
         List<Base> LBase = new List<Base>();
         List<byte> BufferF = new List<byte>();
+        int maxId = 5;
         int count;
         public Form1()
         {
             InitializeComponent();
+            IDCombobox();
             createGrid();
             initialSerialPort();
 
@@ -52,13 +58,14 @@ namespace MeteoStation_2
             dc = new DataColumn("CheckSum", typeof(int));
             dt.Columns.Add(dc);
             //////////////////////////////
-            ////Liason de la datatable datagrid
-            for (int i = 0; i < 5; i++)
+            ////Liason de la datatable datagrid       
+            for (int i = 0; i < maxId; i++)
             {
                 dt.Rows.Add(i);
             }
             dt.Rows.Add(50);
             datagridMeteo.DataSource = dt;
+            
         }
 
         private void initialSerialPort()
@@ -69,7 +76,7 @@ namespace MeteoStation_2
             Serial.DtrEnable = false;
             Serial.RtsEnable = false;
             // Instatiate this class
-            Console.WriteLine("Incoming Data :");
+            
             // Begin communications
             timer1.Start();
             Serial.Open();
@@ -82,7 +89,6 @@ namespace MeteoStation_2
             ////Cette méthode sert à recevoir les données bruts
             if (bData_received == true)
             {
-                Console.WriteLine("DATA RECEIVED");
                 count = Serial.BytesToRead;
                 BufferS = new byte[count];
                 Serial.Read(BufferS, 0, count);
@@ -146,9 +152,9 @@ namespace MeteoStation_2
                 MessageBox.Show(ex.Message);
             }
         }
+        
         private void AddtoBufferF()
-        {
-            ///////////////////////////////////////////////
+        {            
             ////Cette méthode sert à inserer les données dans la liste finale
             for (int index = 0; index < BufferS.Length; index++)
             {
@@ -173,21 +179,13 @@ namespace MeteoStation_2
             }
             return false;
         }
-        public double GetDataConvert(UInt32 Data, int nbredata, int MaxInterval, int MinInterval)
-        {   ///////////////////////////////////////////////
-            ////Cette méthode sert à  convertir les données
-            double DataConvert;
-            double denomiteur = Math.Pow(2, nbredata * 8) - 1;   
-            DataConvert = ((double)(Data / denomiteur) * (MaxInterval - MinInterval)) + MinInterval;
-            return DataConvert;
-        }
         private void InsertValueInDatagrid()
         {
             /////////////////////////////
             ///Cette méthode sert à inserer les valeurs dans le datagrid
             foreach (Base trame in LBase)
             {
-                if (trame.id < 6)
+                if (trame.id < 10)
                 {
                     dt.Rows[(trame.id)].SetField(1, trame.cptOctet);
                     dt.Rows[(trame.id)].SetField(2, trame.Type);
@@ -215,7 +213,7 @@ namespace MeteoStation_2
         {
             foreach (Base trame in LBase)
             {
-                if (trame.id == numericUpDownID.Value)
+                if (trame.id == (int) comboBoxID.SelectedItem)
                 {
                     int Maxinterval = (int)nUD_MaxInterval.Value;
                     int Mininterval = (int)nUD_MinInterval.Value;
@@ -227,6 +225,7 @@ namespace MeteoStation_2
                     ((Mesure)trame).Maxint= Maxinterval;
                     ((Mesure)trame).Minint= Mininterval;                  
                     ((Mesure)trame).isConvert = true;
+                    
                 }
             }
         }
@@ -236,6 +235,15 @@ namespace MeteoStation_2
         {
             InsertValueInDatagrid();
         }
+
+        private void IDCombobox()
+        {
+            for(int i = 1; i<maxId-1; i++)
+            {
+                comboBoxID.Items.Add(i);
+            }
+        }
+
         private void AddTrame()
         {
             while (BufferF.Count > 14)
@@ -274,7 +282,6 @@ namespace MeteoStation_2
                     {
                         obj.data += (((UInt32)BufferF[6 + cpt]) << 8 * cpt);
                     }
-                    Console.WriteLine("New trame id:" + obj.id + "| Nbre :" + obj.cptOctet + "| Type :" + obj.Type + "| " + "| Data :" + obj.data + "| " + "| Checksum :" + obj.checksum);
                     if(checkListBase(obj))
                     {
                         uptadeData(obj);
@@ -383,6 +390,7 @@ namespace MeteoStation_2
             {
                 SetVisibleConnect(false);
                 SetUserName(true);
+                initPageGraph();
                 if(user.Access == 1)
                 {
                     initUserPage();
@@ -426,5 +434,77 @@ namespace MeteoStation_2
                 
             }
         }
+        private void initPageGraph()
+        {
+            this.GraphForm = new Forms.FormGraph();
+            this.PageGraph = new System.Windows.Forms.TabPage();
+            //TabPageGraph
+            this.PageGraph.Controls.Add(this.GraphForm); 
+            this.PageGraph.Location = new System.Drawing.Point(4, 22);
+            this.PageGraph.Name = "tabPageGraph";
+            this.PageGraph.Padding = new System.Windows.Forms.Padding(3);
+            this.PageGraph.Size = new System.Drawing.Size(853, 257);
+            this.PageGraph.TabIndex = 0;
+            this.PageGraph.Text = "Graphiques";
+            this.PageGraph.UseVisualStyleBackColor = true;
+            this.tabcontrol.Controls.Add(this.PageGraph);
+            ///Form
+            GraphForm.Location = new System.Drawing.Point(10, 10);
+            GraphForm.Name = "FormUser";
+            GraphForm.Size = new System.Drawing.Size(1000, 300);
+            GraphForm.TabIndex = 5;
+            ///////////////////////////
+            ///Add Data
+            GraphForm.comboBoxIDGraphique.Click += delegate (object sender2, EventArgs e2)
+            {
+                foreach (Base Trame in LBase)
+                {
+                    if (Trame.isConvert == true)
+                    {
+                        if(!GraphForm.comboBoxIDGraphique.Items.Contains(Trame.id))
+                        GraphForm.comboBoxIDGraphique.Items.Add(Trame.id);
+                    }
+                }
+            };
+            GraphForm.btLauch.Click += delegate (object sender2, EventArgs e2)
+            {
+                if (GraphForm.comboBoxIDGraphique.SelectedItem != null)
+                {
+                    Timer timer = new Timer();
+                    timer.Interval = 2000;
+
+                    GraphForm.chartID.Series.Clear();
+                    GraphForm.chartID.Series.Add(series1);
+                    /////////////////////////////
+                    ///Valeurs
+                    timer.Start();
+                    timer.Tick += new EventHandler(addValueGraphics);
+                }
+                else
+                {
+                    MessageBox.Show("Vous devez choisir un id Mesure");
+                }
+
+
+            };
+
+        }
+
+        private void  addValueGraphics(Object myObject, EventArgs myEventArgs)
+        {
+            
+            int id = (int)GraphForm.comboBoxIDGraphique.SelectedItem;
+            foreach (Base Trame in LBase)
+            {
+                if (Trame.id == id)
+                {
+
+                    series1.Points.AddXY(cpt, (int)(((Mesure)Trame).getDataConvert()));
+                    cpt++;
+                    GraphForm.chartID.Show();
+                }
+            }
+        }
+
     }
 }
