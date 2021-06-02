@@ -32,7 +32,7 @@ namespace MeteoStation_2.Class
 		internal DataColumn Column_J = new DataColumn("J", System.Type.GetType("System.Boolean"));
 		internal static string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;"
 										+
-										@"Data Source=db\DB_UserAccess.accdb;Cache Authentication=True";
+										@"Data Source=..\..\db\DB_UserAccess.accdb;Cache Authentication=True";
 		internal void createDB()
 		{
 

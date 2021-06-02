@@ -409,7 +409,7 @@ namespace MeteoStation_2
             };
             UserForm.btDelete.Click += delegate (object sender2, EventArgs e2)
             {
-                db.button_DL_Click(sender2, e2, UserForm.dataGridViewUser, UserForm.name.Text);
+                db.button_DL_Click(sender2, e2, UserForm.dataGridViewUser, UserForm.textBoxnameDelete.Text);
             };
         }
         private void connectbutton_Click(object sender, EventArgs e)
