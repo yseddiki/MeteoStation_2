@@ -40,7 +40,6 @@ namespace MeteoStation_2
             initialSerialPort();
 
         }
-
         private void createGrid()
         {
 
@@ -69,7 +68,6 @@ namespace MeteoStation_2
             datagridMeteo.DataSource = dt;
             
         }
-
         private void initialSerialPort()
         {
             Serial.PortName = DefaultCOM;
@@ -78,13 +76,13 @@ namespace MeteoStation_2
             Serial.DtrEnable = false;
             Serial.RtsEnable = false;
             // Instatiate this class
-            
+            affichageConfigurations(false);
             // Begin communications
             timer1.Start();
+            timer1.Enabled = false;
             Serial.Open();
             Serial.DataReceived += new SerialDataReceivedEventHandler(Serial_DataReceived);
         }
-
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             ///////////////////////////////////////////////
@@ -98,7 +96,6 @@ namespace MeteoStation_2
                 AddtoBufferF();
             }
         }
-
         private void btSave_Click(object sender, EventArgs e)
         {
             //cette fontion sauvegarde les paramètres entrés pour chaque ID dans un excel
@@ -154,7 +151,6 @@ namespace MeteoStation_2
                 MessageBox.Show(ex.Message);
             }
         }
-        
         private void AddtoBufferF()
         {            
             ////Cette méthode sert à inserer les données dans la liste finale
@@ -258,18 +254,14 @@ namespace MeteoStation_2
                     ((Mesure)trame).Maxint= Maxinterval;
                     ((Mesure)trame).Minint= Mininterval;                  
                     ((Mesure)trame).isConvert = true;
-                    
                 }
             }
         }
-        
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             InsertValueInDatagrid();
             insertAliveInDatagrid();
         }
-
         private void IDCombobox()
         {
             for(int i = 1; i<maxId-1; i++)
@@ -277,7 +269,6 @@ namespace MeteoStation_2
                 comboBoxID.Items.Add(i);
             }
         }
-
         private void AddTrame()
         {
             while (BufferF.Count > 14)
@@ -362,7 +353,6 @@ namespace MeteoStation_2
                 }
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             ///////////////////////////////////////////////
@@ -378,7 +368,7 @@ namespace MeteoStation_2
                 button1.Text = "Pause";
             }
         }
-        private void initUserPage()
+        private void initUserPage(int access)
         { 
             this.UserForm = new Forms.FormUser();
             this.PageUser = new System.Windows.Forms.TabPage();
@@ -399,40 +389,65 @@ namespace MeteoStation_2
             UserForm.TabIndex = 5;
             db.createDB();
             db.linkDB(UserForm.dataGridViewUser);
+            if(access == 2)
+            {
+                UserForm.groupBoxCreate.Visible = false;
+            }
+            else if (access == 3)
+            {
+                UserForm.groupBoxCreate.Visible = false;
+                UserForm.groupBoxUserDelete.Visible = false;
+            }
+
             UserForm.btRead.Click += delegate (object sender2, EventArgs e2)
             {
                 db.button_RD_Click(sender2, e2, UserForm.dataGridViewUser);
             };
             UserForm.btInsert.Click += delegate (object sender2, EventArgs e2)
             {
-                db.button_Insert_Click(sender2, e2, UserForm.dataGridViewUser,UserForm.id.Text, UserForm.name.Text,UserForm.pwd.Text);
+                db.button_Insert_Click(sender2, e2, UserForm.dataGridViewUser,  UserForm.name.Text, UserForm.pwd.Text,int.Parse(UserForm.Access.Text));
             };
             UserForm.btDelete.Click += delegate (object sender2, EventArgs e2)
             {
                 db.button_DL_Click(sender2, e2, UserForm.dataGridViewUser, UserForm.name.Text);
             };
         }
-
         private void connectbutton_Click(object sender, EventArgs e)
         {
            user = db.ConnectDB(UserInput.Text, passwordInput.Text);
             if(user!=null)
             {
+                ////////////////////////////////
+                ////Basic User
                 SetVisibleConnect(false);
                 SetUserName(true);
                 initPageGraph();
-                if (user.Access == 1)
+                affichageConfigurations(true);
+                ////////////////////////////////
+                ///MiddleRights
+                if (user.Access == 3)
                 {
-                    initUserPage();
+                    initUserPage(3);
                 }
-                else if(user.Access == 2)
+                ////////////////////////////////
+                ///MasterRights
+                else if (user.Access == 2)
                 {
-
+                    initUserPage(2);
                 }
+                ////////////////////////////////
+                ///AdminRights
+                else if (user.Access == 1)
+                {
+                    initUserPage(1);
+                } 
             }
            
         }
-
+        private void affichageConfigurations(bool v)
+        {
+            groupBoxConfiguration.Visible = v;
+        }
         private void SetUserName(bool v)
         {
             if (v)
@@ -447,7 +462,6 @@ namespace MeteoStation_2
 
             }
         }
-       
         private void SetVisibleConnect(bool v)
         {
             if (v)
@@ -521,7 +535,6 @@ namespace MeteoStation_2
             };
 
         }
-
         private void  addValueGraphics(Object myObject, EventArgs myEventArgs)
         {
             int id = (int)GraphForm.comboBoxIDGraphique.SelectedItem;
@@ -536,5 +549,6 @@ namespace MeteoStation_2
             }
         }
 
+        
     }
 }

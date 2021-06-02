@@ -58,7 +58,7 @@ namespace MeteoStation_2.Class
 	
 		internal void button_RD_Click(object sender, EventArgs e,DataGridView dg)
 		{
-			string CommandText = "SELECT * from UserTable " + "WHERE AccessKey_Id = " + "1 " + "ORDER BY UserName;";
+			string CommandText = "SELECT * from UserTable ORDER BY UserName;";
 			UserTable.Rows.Clear();
 			using (OleDbConnection connection = new OleDbConnection(connectionString))
 			{
@@ -111,10 +111,9 @@ namespace MeteoStation_2.Class
 		 
 			dg.DataSource = UserTable;
 		}
-		internal void button_Insert_Click(object sender, EventArgs e, DataGridView dg ,String id,String name, String pwd)
+		internal void button_Insert_Click(object sender, EventArgs e, DataGridView dg ,String name, String pwd, int access)
 		{
-			MessageBox.Show("Insert");
-			if (verification(id, name, pwd))
+			if (verification(access,name, pwd))
 			{
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
@@ -123,7 +122,7 @@ namespace MeteoStation_2.Class
 						connection.Open();
 						OleDbCommand DBCommand = new OleDbCommand();
 						DBCommand.Connection = connection;
-						DBCommand.CommandText = "insert into UserTable values(" + id + ", '" + name + "', '" + pwd + "', 1 )";
+						DBCommand.CommandText = "insert into UserTable (UserName,UserPassword,AccessKey_Id) values('" + name + "', '" + pwd + "', "+access+")";
 						DBCommand.ExecuteNonQuery();
 						connection.Close();
 					}
@@ -192,9 +191,9 @@ namespace MeteoStation_2.Class
 			}
 		}
 
-		private bool verification(String id, String name, String pwd)
+		private bool verification(int access, String name, String pwd)
 		{
-			if (id.Length.Equals(0)|| name.Length.Equals(0) || pwd.Length.Equals(0))
+			if (access.Equals(0)|| name.Length.Equals(0) || pwd.Length.Equals(0))
 			{
 				return false;
 			}
