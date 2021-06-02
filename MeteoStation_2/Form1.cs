@@ -57,6 +57,8 @@ namespace MeteoStation_2
             dt.Columns.Add(dc);
             dc = new DataColumn("CheckSum", typeof(int));
             dt.Columns.Add(dc);
+            dc = new DataColumn("Etat");
+            dt.Columns.Add(dc);
             //////////////////////////////
             ////Liason de la datatable datagrid       
             for (int i = 0; i < maxId; i++)
@@ -198,6 +200,7 @@ namespace MeteoStation_2
                         dt.Rows[(trame.id)].SetField(3,((Mesure)trame).getDataConvert());
                     }
                     dt.Rows[(trame.id)].SetField(4, trame.checksum);
+
                 }
                 else if (trame.id==50)
                 {
@@ -206,6 +209,36 @@ namespace MeteoStation_2
                     dt.Rows[5].SetField(3, trame.data);
                     dt.Rows[5].SetField(4, trame.checksum);
                 }
+            }
+            datagridMeteo.DataSource = dt;
+        }
+        private void insertAliveInDatagrid()
+        {
+            /////////////////////////////
+            ///Cette méthode sert à inserer les keepAlive et les up ou down dans le datagrid
+            foreach (Base trame in LBase)
+            {
+                if(trame.id == 0)
+                {
+                    dt.Rows[(trame.id)].SetField(5, "Keep Alive");
+                }
+                else if(trame.isConvert ==true)
+                {
+                    int dataconvert = (int)((Mesure)trame).getDataConvert();
+                    if ((int)((Mesure)trame).MaxAlarm< dataconvert)
+                    {
+                       dt.Rows[(trame.id)].SetField(5, "Up");
+                    }
+                    else if ((int)((Mesure)trame).MinAlarm > dataconvert)
+                    {
+                        dt.Rows[(trame.id)].SetField(5, "Down");
+                    }
+                    else
+                    {
+                        dt.Rows[(trame.id)].SetField(5, "OK");
+                    }
+                }
+
             }
             datagridMeteo.DataSource = dt;
         }
@@ -234,6 +267,7 @@ namespace MeteoStation_2
         private void timer1_Tick(object sender, EventArgs e)
         {
             InsertValueInDatagrid();
+            insertAliveInDatagrid();
         }
 
         private void IDCombobox()
@@ -382,21 +416,21 @@ namespace MeteoStation_2
         private void connectbutton_Click(object sender, EventArgs e)
         {
            user = db.ConnectDB(UserInput.Text, passwordInput.Text);
-            if(user.Equals(null))
-            {
-                
-            }
-            else
+            if(user!=null)
             {
                 SetVisibleConnect(false);
                 SetUserName(true);
                 initPageGraph();
-                if(user.Access == 1)
+                if (user.Access == 1)
                 {
                     initUserPage();
                 }
-                
+                else if(user.Access == 2)
+                {
+
+                }
             }
+           
         }
 
         private void SetUserName(bool v)
@@ -472,7 +506,7 @@ namespace MeteoStation_2
                 {
                     Timer timer = new Timer();
                     timer.Interval = 2000;
-
+                    cpt = 1;
                     GraphForm.chartID.Series.Clear();
                     GraphForm.chartID.Series.Add(series1);
                     /////////////////////////////
@@ -484,21 +518,17 @@ namespace MeteoStation_2
                 {
                     MessageBox.Show("Vous devez choisir un id Mesure");
                 }
-
-
             };
 
         }
 
         private void  addValueGraphics(Object myObject, EventArgs myEventArgs)
         {
-            
             int id = (int)GraphForm.comboBoxIDGraphique.SelectedItem;
             foreach (Base Trame in LBase)
             {
                 if (Trame.id == id)
                 {
-
                     series1.Points.AddXY(cpt, (int)(((Mesure)Trame).getDataConvert()));
                     cpt++;
                     GraphForm.chartID.Show();

@@ -85,7 +85,7 @@
             this.datagridMeteo.ShowCellToolTips = false;
             this.datagridMeteo.ShowEditingIcon = false;
             this.datagridMeteo.ShowRowErrors = false;
-            this.datagridMeteo.Size = new System.Drawing.Size(497, 218);
+            this.datagridMeteo.Size = new System.Drawing.Size(604, 194);
             this.datagridMeteo.TabIndex = 0;
             // 
             // groupBox1
@@ -101,7 +101,7 @@
             this.groupBox1.Controls.Add(this.lb_IntervalMax);
             this.groupBox1.Controls.Add(this.nUD_MinInterval);
             this.groupBox1.Controls.Add(this.nUD_MaxInterval);
-            this.groupBox1.Location = new System.Drawing.Point(555, 19);
+            this.groupBox1.Location = new System.Drawing.Point(682, 19);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -224,7 +224,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(555, 235);
+            this.button1.Location = new System.Drawing.Point(682, 235);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(277, 22);
             this.button1.TabIndex = 3;
@@ -288,7 +288,7 @@
             this.tabcontrol.Location = new System.Drawing.Point(15, 51);
             this.tabcontrol.Name = "tabcontrol";
             this.tabcontrol.SelectedIndex = 0;
-            this.tabcontrol.Size = new System.Drawing.Size(861, 296);
+            this.tabcontrol.Size = new System.Drawing.Size(982, 296);
             this.tabcontrol.TabIndex = 11;
             // 
             // tabPageDefault
@@ -301,7 +301,7 @@
             this.tabPageDefault.Location = new System.Drawing.Point(4, 22);
             this.tabPageDefault.Name = "tabPageDefault";
             this.tabPageDefault.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDefault.Size = new System.Drawing.Size(853, 270);
+            this.tabPageDefault.Size = new System.Drawing.Size(974, 270);
             this.tabPageDefault.TabIndex = 0;
             this.tabPageDefault.Text = "Data";
             this.tabPageDefault.UseVisualStyleBackColor = true;
