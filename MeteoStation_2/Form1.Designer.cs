@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.datagridMeteo = new System.Windows.Forms.DataGridView();
             this.Serial = new System.IO.Ports.SerialPort(this.components);
             this.groupBoxConfiguration = new System.Windows.Forms.GroupBox();
@@ -56,6 +57,7 @@
             this.tabcontrol = new System.Windows.Forms.TabControl();
             this.tabPageDefault = new System.Windows.Forms.TabPage();
             this.formAlarm1 = new MeteoStation_2.Forms.FormAlarm();
+            this.Exit_bt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBoxConfiguration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAlarmMin)).BeginInit();
@@ -315,6 +317,7 @@
             // 
             // tabPageDefault
             // 
+            this.tabPageDefault.BackColor = System.Drawing.Color.SkyBlue;
             this.tabPageDefault.Controls.Add(this.datagridMeteo);
             this.tabPageDefault.Controls.Add(this.groupBoxConfiguration);
             this.tabPageDefault.Controls.Add(this.button1);
@@ -324,7 +327,6 @@
             this.tabPageDefault.Size = new System.Drawing.Size(1089, 316);
             this.tabPageDefault.TabIndex = 0;
             this.tabPageDefault.Text = "Data";
-            this.tabPageDefault.UseVisualStyleBackColor = true;
             // 
             // formAlarm1
             // 
@@ -334,11 +336,24 @@
             this.formAlarm1.Size = new System.Drawing.Size(5, 5);
             this.formAlarm1.TabIndex = 4;
             // 
+            // Exit_bt
+            // 
+            this.Exit_bt.Location = new System.Drawing.Point(19, 477);
+            this.Exit_bt.Name = "Exit_bt";
+            this.Exit_bt.Size = new System.Drawing.Size(344, 65);
+            this.Exit_bt.TabIndex = 12;
+            this.Exit_bt.Text = "Exit";
+            this.Exit_bt.UseVisualStyleBackColor = true;
+            this.Exit_bt.Click += new System.EventHandler(this.Exit_bt_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1232, 570);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1136, 583);
+            this.Controls.Add(this.Exit_bt);
             this.Controls.Add(this.tabcontrol);
             this.Controls.Add(this.accountlabel);
             this.Controls.Add(this.labelPassword);
@@ -349,7 +364,7 @@
             this.Controls.Add(this.formAlarm1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "Meteo";
+            this.Text = "Meteo Simulator";
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).EndInit();
             this.groupBoxConfiguration.ResumeLayout(false);
             this.groupBoxConfiguration.PerformLayout();
@@ -393,6 +408,7 @@
         private System.Windows.Forms.Button buttonUpload;
         private System.Windows.Forms.Label ID;
         private System.Windows.Forms.ComboBox comboBoxID;
+        private System.Windows.Forms.Button Exit_bt;
     }
 
       

@@ -369,7 +369,8 @@ namespace MeteoStation_2
             }
         }
         private void initUserPage(int access)
-        { 
+        {
+           
             this.UserForm = new Forms.FormUser();
             this.PageUser = new System.Windows.Forms.TabPage();
             //TabPage
@@ -380,6 +381,7 @@ namespace MeteoStation_2
             this.PageUser.Size = new System.Drawing.Size(853, 257);
             this.PageUser.TabIndex = 0;
             this.PageUser.Text = "Users";
+            this.PageUser.BackColor = System.Drawing.Color.LightSkyBlue;
             this.PageUser.UseVisualStyleBackColor = true;
             this.tabcontrol.Controls.Add(this.PageUser);
             ///Form
@@ -490,6 +492,7 @@ namespace MeteoStation_2
             this.PageGraph.Controls.Add(this.GraphForm); 
             this.PageGraph.Location = new System.Drawing.Point(4, 22);
             this.PageGraph.Name = "tabPageGraph";
+            this.PageGraph.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.PageGraph.Padding = new System.Windows.Forms.Padding(3);
             this.PageGraph.Size = new System.Drawing.Size(853, 257);
             this.PageGraph.TabIndex = 0;
@@ -501,6 +504,7 @@ namespace MeteoStation_2
             GraphForm.Name = "FormUser";
             GraphForm.Size = new System.Drawing.Size(1000, 300);
             GraphForm.TabIndex = 5;
+            
             ///////////////////////////
             ///Add Data
             GraphForm.comboBoxIDGraphique.Click += delegate (object sender2, EventArgs e2)
@@ -514,15 +518,19 @@ namespace MeteoStation_2
                     }
                 }
             };
+            ///////////////////////////
+            ///Lauch
             GraphForm.btLauch.Click += delegate (object sender2, EventArgs e2)
             {
                 if (GraphForm.comboBoxIDGraphique.SelectedItem != null)
                 {
+
                     Timer timer = new Timer();
                     timer.Interval = 2000;
                     cpt = 1;
                     GraphForm.chartID.Series.Clear();
                     GraphForm.chartID.Series.Add(series1);
+                    series1.ChartType = SeriesChartType.Spline;
                     /////////////////////////////
                     ///Valeurs
                     timer.Start();
@@ -538,6 +546,7 @@ namespace MeteoStation_2
         private void  addValueGraphics(Object myObject, EventArgs myEventArgs)
         {
             int id = (int)GraphForm.comboBoxIDGraphique.SelectedItem;
+            
             foreach (Base Trame in LBase)
             {
                 if (Trame.id == id)
@@ -549,6 +558,9 @@ namespace MeteoStation_2
             }
         }
 
-        
+        private void Exit_bt_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }

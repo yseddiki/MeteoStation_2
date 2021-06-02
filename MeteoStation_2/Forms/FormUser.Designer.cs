@@ -50,10 +50,14 @@
             // 
             // dataGridViewUser
             // 
+            this.dataGridViewUser.AllowUserToAddRows = false;
+            this.dataGridViewUser.AllowUserToDeleteRows = false;
+            this.dataGridViewUser.AllowUserToOrderColumns = true;
             this.dataGridViewUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewUser.Location = new System.Drawing.Point(33, 50);
             this.dataGridViewUser.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridViewUser.Name = "dataGridViewUser";
+            this.dataGridViewUser.ReadOnly = true;
             this.dataGridViewUser.RowHeadersWidth = 62;
             this.dataGridViewUser.RowTemplate.Height = 28;
             this.dataGridViewUser.Size = new System.Drawing.Size(463, 215);
