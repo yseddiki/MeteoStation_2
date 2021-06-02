@@ -56,8 +56,8 @@
             this.accountlabel = new System.Windows.Forms.Label();
             this.tabcontrol = new System.Windows.Forms.TabControl();
             this.tabPageDefault = new System.Windows.Forms.TabPage();
-            this.formAlarm1 = new MeteoStation_2.Forms.FormAlarm();
             this.Exit_bt = new System.Windows.Forms.Button();
+            this.formAlarm1 = new MeteoStation_2.Forms.FormAlarm();
             ((System.ComponentModel.ISupportInitialize)(this.datagridMeteo)).BeginInit();
             this.groupBoxConfiguration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAlarmMin)).BeginInit();
@@ -283,6 +283,8 @@
             // labelUser
             // 
             this.labelUser.AutoSize = true;
+            this.labelUser.BackColor = System.Drawing.Color.Transparent;
+            this.labelUser.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.labelUser.Location = new System.Drawing.Point(12, 11);
             this.labelUser.Name = "labelUser";
             this.labelUser.Size = new System.Drawing.Size(61, 13);
@@ -292,6 +294,8 @@
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
+            this.labelPassword.BackColor = System.Drawing.Color.Transparent;
+            this.labelPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.labelPassword.Location = new System.Drawing.Point(196, 11);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(59, 13);
@@ -303,6 +307,7 @@
             this.accountlabel.AutoSize = true;
             this.accountlabel.Location = new System.Drawing.Point(783, 15);
             this.accountlabel.Name = "accountlabel";
+            this.accountlabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.accountlabel.Size = new System.Drawing.Size(0, 13);
             this.accountlabel.TabIndex = 10;
             // 
@@ -328,14 +333,6 @@
             this.tabPageDefault.TabIndex = 0;
             this.tabPageDefault.Text = "Data";
             // 
-            // formAlarm1
-            // 
-            this.formAlarm1.Location = new System.Drawing.Point(393, 308);
-            this.formAlarm1.Margin = new System.Windows.Forms.Padding(1);
-            this.formAlarm1.Name = "formAlarm1";
-            this.formAlarm1.Size = new System.Drawing.Size(5, 5);
-            this.formAlarm1.TabIndex = 4;
-            // 
             // Exit_bt
             // 
             this.Exit_bt.Location = new System.Drawing.Point(19, 477);
@@ -345,6 +342,14 @@
             this.Exit_bt.Text = "Exit";
             this.Exit_bt.UseVisualStyleBackColor = true;
             this.Exit_bt.Click += new System.EventHandler(this.Exit_bt_Click);
+            // 
+            // formAlarm1
+            // 
+            this.formAlarm1.Location = new System.Drawing.Point(393, 308);
+            this.formAlarm1.Margin = new System.Windows.Forms.Padding(1);
+            this.formAlarm1.Name = "formAlarm1";
+            this.formAlarm1.Size = new System.Drawing.Size(5, 5);
+            this.formAlarm1.TabIndex = 4;
             // 
             // Form1
             // 

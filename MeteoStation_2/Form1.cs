@@ -455,7 +455,8 @@ namespace MeteoStation_2
             if (v)
             {
                 accountlabel.Visible = true;
-                accountlabel.Text = "Account :" + user.name + " Level Access :" + user.Access; 
+                accountlabel.Text = "Account : " + user.name + " Level Access :" + user.Access;
+                accountlabel.BackColor = Color.Transparent;
             }
             else
             {
